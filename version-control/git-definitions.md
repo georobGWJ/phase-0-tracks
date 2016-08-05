@@ -2,7 +2,7 @@
 
 **Instructions: ** Define each of the following Git concepts.
 
-* What is version control?  Why is it useful?
+### What is version control?  Why is it useful?
 
 Version control includes tools and processes used to track and 
 manage the state of codebases or other (usually text-based) 
@@ -21,7 +21,7 @@ back into the master branch after coworkers or managers have
 reviewed them.
 
 
-* What is a branch and why would you use one?
+### What is a branch and why would you use one?
 
 A branch is an independent copy of a codebase that can be freely
 modified without directly affecting the codebase that it was 
@@ -32,7 +32,7 @@ reviewed and, provided it's good, have it merged back into the
 main codebase (or a sub-branch.) 
 
 
-* What is a commit? What makes a good commit message?
+### What is a commit? What makes a good commit message?
 
 A commit is a save point for the codebase branch that you're in.
 It saves the files that you have modified and told git that you
@@ -44,7 +44,7 @@ non-trivial or non-self explanatory. It should also be present
 tense (i.e. 'Add foo method', not 'Added foo method'.)
 
 
-* What is a merge conflict?
+### What is a merge conflict?
 
 A merge conflict occurs when multiple branches of a codebase 
 have modified the same method or file in different ways and git 
@@ -54,6 +54,7 @@ and George have independently modified the logic of the foo
 method and the manager tries to merge Sarah's and George's code
 into the master branch, a merge conflict will occur. Even if both
 modifications are valid and improve the foo method in some way, 
-only one can be the 'canonical' foo method. This is a reason that collaborators need to clearly communicate and understand the scope 
+only one can be the 'canonical' foo method. This is a reason that
+collaborators need to clearly communicate and understand the scope 
 of what they should be working on; that will ideally prevent 
 merge conflicts.

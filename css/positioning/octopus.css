@@ -1,0 +1,32 @@
+h1 {
+  text-align: center;
+}
+
+.classy_octopus {
+  position: relative;
+  margin: auto;
+  width: 700;
+  height: 350px;
+}
+
+#octo {
+  position: relative;
+  display: block;
+  margin: auto;
+  top: 50px;
+  z-index: -1;
+}
+
+#glasses {
+  position: relative;
+  display: block;
+  margin: auto;
+  bottom: 141px;
+}
+
+#hat {
+  position: relative;
+  display: block;
+  margin: auto;
+  bottom: 370px;
+}

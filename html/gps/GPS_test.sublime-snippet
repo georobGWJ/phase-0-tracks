@@ -1,0 +1,20 @@
+<snippet>
+  <content><![CDATA[
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <!-- Comments here. -->
+    <meta charset="UTF-8">
+    <title></title>
+  </head>
+
+  <body>
+    
+  </body>
+</html>
+
+]]></content>
+  <tabTrigger>hello</tabTrigger>
+  <scope>text.html</scope>
+</snippet>

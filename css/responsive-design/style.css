@@ -1,3 +1,15 @@
+/*
+   I worked on DBC Challenge 3.4 with Michael Bravo, @infiniteloop on Slack,
+   michaelbravo777 on GitHub, on 18 August 2016 1400 PDT. After our session
+   ended I continued playing with the css, so it doesn't 100% match his.
+*/
+
+body {
+  max-width: 960px;
+  /*border: 1px solid blue;*/
+}
+
+#ext
 blockquote {
   border-left: 5px solid blue;
   padding: 15px;
@@ -9,9 +21,32 @@ cite {
   margin-top: 10px;
 }
 
+main {
+  /*border: 1px solid red;*/
+  display: inline-block;
+  vertical-align: top;
+  max-width: 75%;
+  min-width: 500px;
+}
+
+#external-links {
+  /*border: 1px solid red;*/
+  display: inline-block;
+  vertical-align: top;
+  max-width: 20%;
+  min-width: 120px;
+}
+
 #external-links ul {
   list-style-type: none;
   padding-left: 0px;
+  padding-right: 10px;
+}
+
+#page-wrapper {
+  position: relative;
+  display: block;
+  margin: auto;
 }
 
 /* you're welcome to edit the
@@ -29,4 +64,23 @@ figure {
 figcaption {
   font-style: italic;
   text-align: right;
+}
+
+@media screen and (max-width: 1000px) {
+  body {
+    font-size: 75%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  main {
+    display: block;
+    max-width: 100%;
+  }
+
+  #external-links {
+    display: block;
+    max-width: 100%;
+    text-align: center;
+  }
 }

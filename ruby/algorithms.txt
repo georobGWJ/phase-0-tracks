@@ -1,0 +1,25 @@
+Pseudocode Algorithm for Using an Elevator
+==========================================
+Assumptions: The robot is on an arbitrary floor standing in front of the elevator. The robot is sufficiently human like that it physically operates like a human would.
+
+Algorithm:
+1. Locate elevator call button.
+2. If going to a higher floor, press the elevator up button.
+    Else if going to a lower floor, press the elevator down button.
+    Else you must already be on the floor you want to be on. Congratulations!
+3. Wait to hear chime of elevator arriving.
+4. Wait for elevator door to open. 
+5. If there are exiting humans or robots, wait for them to exit.
+6. Enter elevator and turn to face elevator door.
+7. Locate bank of buttons with floor numbers on them.
+8. Read upper left button.
+    a. If button has the floor number you want to go to, press button.
+    b. Else look at button to the right of the button you just read.
+       c. If there is no button to the right, move down one row and move to the button furthest to the left.
+    d. Repeat steps 8 a. through c. until you find the floor you want and press that floor button.
+9. Wait for elevator to move.
+10. When elevator stops, look at floor number lit on the panel or above the door.
+    a. If this lit floor number is the one that you wanted, wait for elevator door to open and exit elevator. Congratulations, you did it!
+    b. Else, wait patiently for the elevator door to close and for the elevator to keep moving.
+    c. Repeat 10 a. and b. until you reach the floor you want.
+

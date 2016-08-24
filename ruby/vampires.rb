@@ -29,10 +29,32 @@ case gets.chomp.downcase
   else nil
 end
 
-# Test Code
-p name
-p age 
-p birth_year 
-p likes_garlic
-p wants_insurance
+# Test Code #
+# p name
+# p age 
+# p birth_year 
+# p likes_garlic
+# p wants_insurance
 
+# Apply logic to figure out whether the employee in question is a vampire.
+
+monster_type = "Results inconclusive."
+
+current_year = Time.now.year
+if (current_year - birth_year == age) && (likes_garlic || wants_insurance)
+  monster_type = "Probably not a vampire."
+end
+
+if (current_year - birth_year != age) && (!likes_garlic || !wants_insurance)
+  monster_type = "Probably a vampire."
+end
+
+if (current_year - birth_year != age) && !likes_garlic && !wants_insurance
+  monster_type = "Almost certainly a vampire."
+end
+
+if (name == "Drake Cula") || (name == "Tu Fang")
+  monster_type = "Definitely a vampire!"
+end
+
+puts "Employee Evaluation: #{monster_type}"

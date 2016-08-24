@@ -3,6 +3,10 @@
 
 puts "How many employees will be processed today?"
 num_employees = gets.chomp.to_i
+if num_employees < 1
+  puts "YOU ran the program bud. You need to put in at least one employee!\n"
+  num_employees = 1
+end
 
 (1..num_employees).each do
   puts "\n================================================\n"

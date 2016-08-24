@@ -11,12 +11,12 @@ num_employees = gets.chomp.to_i
   puts "What is your name?"
   name = gets.chomp
 
-  puts "How old are you and what year were you born?"
+  puts "\nHow old are you and what year were you born?"
   age_year = gets.chomp
   age = age_year.split[0].to_i  # I know doing it this way is silly
   birth_year = age_year.split[1].to_i # but I'm experimenting.
 
-  puts "Our company cafeteria serves garlic bread.\n" +
+  puts "\nOur company cafeteria serves garlic bread.\n" +
         "Should we order some for you?"
   case gets.chomp.downcase
     when "yes" then likes_garlic = true 
@@ -26,7 +26,7 @@ num_employees = gets.chomp.to_i
     else nil
   end
 
-  puts "Would you like to enroll in the company’s health insurance?"
+  puts "\nWould you like to enroll in the company’s health insurance?"
   case gets.chomp.downcase
     when "yes" then wants_insurance = true 
     when "y" then wants_insurance = true
@@ -52,6 +52,19 @@ num_employees = gets.chomp.to_i
     monster_type = "Probably a vampire."
   end
 
+  puts "Please enter your allergies one at a time.\nWhen finished, enter Done:"
+  while true
+    print "Allergy: "
+    allergy = gets.chomp.downcase
+    # Break out of loop if user enters 'sunshine' or 'done'
+    if allergy == "sunshine"
+      monster_type = "Probably a vampire."
+      break
+    elsif allergy == "done"
+      break
+    end
+  end
+
   # If the employee got their age wrong, hates garlic bread, and doesn’t want 
   # insurance, the result is “Almost certainly a vampire.”
   if (current_year - birth_year != age) && !likes_garlic && !wants_insurance
@@ -70,3 +83,6 @@ num_employees = gets.chomp.to_i
 end
 
 puts "================================================\n"
+
+puts "Actually, never mind! \nWhat do these questions have to do with anything? 
+      \nLet's all be friends! \xE2\x99\xA5"

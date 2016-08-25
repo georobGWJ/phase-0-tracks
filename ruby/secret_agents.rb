@@ -24,8 +24,18 @@ user_string = gets.chomp
 
 def encrypt(string)
   # 2.Start at index 0 and loop through every character
+  idx = 0
+  while idx < string.length
   # 3. increment character by one value (.next)
-  # 4. delete first character(.delete)
-  # 5. increment the index value by one. (loop to next character)
-  # 6. if character == nil then exit loop. or use .length
-  # 7. Print string
+    if string[idx] == "z"
+      string[idx] = "a"
+    else
+      string[idx] = string[idx].next
+    end 
+    idx += 1
+  end
+  string
+end
+
+
+puts encrypt(user_string)

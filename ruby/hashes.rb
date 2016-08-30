@@ -12,12 +12,12 @@ puts "============================================================\n"
 
 puts "\nPlease enter your full name"
 fullname = gets.chomp.split
-client_data[:first_name] = fullname[0].to_s
+client_data[:first_name] = fullname[0].to_s.capitalize
 if fullname.length > 2
-  client_data[:middle_name] = fullname[1].to_s
-  client_data[:surname] = fullname[2].to_s
+  client_data[:middle_name] = fullname[1].to_s.capitalize
+  client_data[:surname] = fullname[2].to_s.capitalize
 elsif fullname.length == 2
-  client_data[:surname] = fullname[1].to_s
+  client_data[:surname] = fullname[1].to_s.capitalize
 end
 
 puts "\nHow old are you?"
@@ -38,16 +38,29 @@ end
 puts "\nWhat is your preferred decor?"
 client_data[:decor_pref] = gets.chomp.to_s
 
-p client_data
-
+#p client_data
 
 # Print keys and values out in an easily readable format 
+puts "\n============================================================\n"
+puts "Thank you #{client_data[:first_name]}! Here is what we understand to be true:\n"
+puts "------------------------------------------------------------\n"
 
+puts "%-20s| %s" % 
+  ["Name", client_data[:first_name] + " " + client_data[:surname]]
+puts "%-20s| %2d" % ["Age", client_data[:age]]
+puts "%-20s| %1d" % ["Number of Children", client_data[:num_children]]
+puts "%-20s| %1.1f" % ["Home Square Footage", client_data[:house_sq_ft]]
+puts "%-20s| %s" % ["Pet Owner", client_data[:has_pets].to_s.capitalize]
+puts "%-20s| %s" % ["Preferred Decor", client_data[:decor_pref].capitalize]
+puts "\n============================================================\n"
 
 # Ask user if any values need to be changed. If so, prompt user to ask 
 # which value to change. Use case statement to change chosen value.
-
-
+puts "Is this correct?"
+case gets.chomp.downcase
+    when "yes", "y" then puts "Great!" 
+    when "no", "n" then puts "Sorry!"
+end
 # Print final keys and values out in an easily readable format and thank
 # the user for using the program
 

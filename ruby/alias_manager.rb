@@ -38,16 +38,27 @@ def codename(real_name)
   code_name
 end
 
+# Create hash to store secret agent data
+secret_agents = {}
+
 # UI Loop to convert multiple user names
 while true
   # Ask User for real name
   puts "What is your name? (no middle names, please)"
+
   name = gets.chomp.downcase
+  # full_name = name
   case name
     when "" then break
     when "quit" then break
-    else p codename(name)
+    else 
+      # Create hash entry for agent
+      secret_agents[name] = codename(name)
+      p secret_agents[name]
+    
   end
 end
+
+secret_agents.each { |x| puts "#{x.value} is really #{x.key}."}
 
 # p codename(name)

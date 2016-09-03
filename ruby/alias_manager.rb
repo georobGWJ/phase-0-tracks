@@ -1,13 +1,6 @@
 # DBC Solo Challenge 5.5
 # Robert Turner, Secret Agent Name: Vaspis Sucisv
 
-# Develop an Algorithm, given a name as an input, to:
-# 1. Swap the first and last name.
-# 2. Changing all of the vowels (a, e, i, o, or u) to the next vowel in 'aeiou', 
-# and all of the consonants (everything else besides the vowels) to the next 
-# consonant in the alphabet. So 'a' would become 'e', 'u' would become 'a', 
-# and 'd' would become 'f'.
-
 # PSEUDOCODE
 # Create a method to implement the process.
 def codename(real_name)
@@ -17,15 +10,12 @@ def codename(real_name)
 
   # Reverse the array using .reverse!
   code_name.reverse!
-  # p code_name # test code line
 
   # Rejoin the last and first name into a single string using join
   code_name = code_name.join(' ')
-  # p code_name # test code line
 
   # Replace all vowels with the next vowel in this string using .tr!
   code_name.tr!("aeiou", "eioua")
-  # p code_name # test code line
 
   # Replace all consonants with the next consonant in this string using .tr!
   code_name.tr!("bcdfghjklmnpqrstvwxyz", "cdfghjklmnpqrstvwxyb")
@@ -47,7 +37,6 @@ while true
   puts "What is your name? (no middle names, please)"
 
   name = gets.chomp
-  # full_name = name
   case name
     when "" then break
     when "quit" then break
@@ -59,7 +48,5 @@ while true
   end
 end
 
-
+# Reveal the identities of the Agents
 secret_agents.each {|key, value| puts "Secret Agent #{value} is really #{key}." }
-
-# p codename(name)

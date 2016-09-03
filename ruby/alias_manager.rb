@@ -46,7 +46,7 @@ while true
   # Ask User for real name
   puts "What is your name? (no middle names, please)"
 
-  name = gets.chomp.downcase
+  name = gets.chomp
   # full_name = name
   case name
     when "" then break
@@ -59,6 +59,7 @@ while true
   end
 end
 
-secret_agents.each { |x| puts "#{x.value} is really #{x.key}."}
+
+secret_agents.each {|key, value| puts "Secret Agent #{value} is really #{key}." }
 
 # p codename(name)

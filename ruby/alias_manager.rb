@@ -31,7 +31,10 @@ def codename(real_name)
   code_name.tr!("bcdfghjklmnpqrstvwxyz", "cdfghjklmnpqrstvwxyb")
   code_name # test code line
 
-  # Return the codename
+  # Split the codename, capitalize and return
+  code_name = code_name.split
+  code_name.map! { |x| x.capitalize}
+  code_name = code_name.join(' ')
   code_name
 end
 

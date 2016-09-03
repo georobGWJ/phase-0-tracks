@@ -46,14 +46,30 @@ def fibonacci(num)
   return fib_arr
 end
 
-p fibonacci(0)
-p fibonacci(1)
-p fibonacci(2)
-p fibonacci(100) 
+# p fibonacci(0) # test code
+# p fibonacci(1) # test code
+# p fibonacci(2) # test code
+# p fibonacci(100) # test code
 
-# def fibonacci( n )     
-#   [ n ] if ( 0..1 ).include? n     
-#   ( fibonacci( n - 1 ) + fibonacci( n - 2 ) ) 
-#   if n > 1 
-# end  
+# Release 2 - Sort and Array
+# ===========================
+def bubble_sort(arr)
 
+loop do
+    swapping_happened = false
+    
+     0.upto(arr.size-2) do |idx|
+        if arr[idx] > arr[idx+1]
+          temp = arr[idx]
+          arr[idx] = arr[idx+1]
+          arr[idx+1] = temp
+          swapping_happened = true
+        end
+     end
+     break unless swapping_happened
+    end
+  arr 
+end
+
+test = [5, 1, 4, 2, 8, 15, 200, 3]
+p bubble_sort(test)

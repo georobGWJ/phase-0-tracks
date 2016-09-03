@@ -38,8 +38,16 @@ def codename(real_name)
   code_name
 end
 
-# Ask User for real name
-puts "What is your name? (no middle names, please)"
-name = gets.chomp
+# UI Loop to convert multiple user names
+while true
+  # Ask User for real name
+  puts "What is your name? (no middle names, please)"
+  name = gets.chomp.downcase
+  case name
+    when "" then break
+    when "quit" then break
+    else p codename(name)
+  end
+end
 
-p codename(name)
+# p codename(name)

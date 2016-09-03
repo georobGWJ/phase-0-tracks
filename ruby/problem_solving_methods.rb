@@ -1,4 +1,6 @@
 # DBC Challenge 5.6
+# I worked with Jessica Kwen to complete Challenge 5.6
+# on 2 Sep 2016.
 
 # Release 0 - Impmement a Simple Search
 # =====================================
@@ -55,21 +57,21 @@ end
 # ===========================
 def bubble_sort(arr)
 
-loop do
+  loop do
     swapping_happened = false
     
-     0.upto(arr.size-2) do |idx|
-        if arr[idx] > arr[idx+1]
-          temp = arr[idx]
-          arr[idx] = arr[idx+1]
-          arr[idx+1] = temp
-          swapping_happened = true
-        end
-     end
-     break unless swapping_happened
+    0.upto(arr.size-2) do |idx|
+      if arr[idx] > arr[idx+1]
+        temp = arr[idx]
+        arr[idx] = arr[idx+1]
+        arr[idx+1] = temp
+        swapping_happened = true
+      end
     end
+    break unless swapping_happened
+  end
   arr 
 end
 
-test = [5, 1, 4, 2, 8, 15, 200, 3]
-p bubble_sort(test)
+# test = [5, 1, 4, 2, 8, 15, 200, 3] # test code
+# p bubble_sort(test) # test code

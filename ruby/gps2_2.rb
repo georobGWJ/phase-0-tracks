@@ -65,3 +65,61 @@ end
 # p foods
 
 # pretty_print(foods)
+
+# Reflection
+# ==========
+# What did you learn about pseudocode from working on this challenge?
+#--------------------------------------------------------------------
+# I learned that while pseudocoding is very valuable in structuring your
+# logic prior to writing actual code, that it doesn't set that logic
+# in stone. Once you begin coding, it may be necessary to deviate from the
+# pseudocode that you have written.
+
+
+# What are the tradeoffs of using arrays and hashes for this challenge?
+#----------------------------------------------------------------------
+# The structure of hashes fits the structure of the data being stored and 
+# allows for more intuitive labels. For example with this hash:
+# food = {'bean' => 4, 'soda' => 6}
+# It is easy to remember that if you want to know how many beans you have
+# to call food['bean']
+
+# An alternative could have been using an array of arrays. For example:
+# food = [ ['bean', 4], ['soda', 6] ]
+# This is more difficult to work with, to get the number of beans you
+# have, you'd need to remember that value is at food[0][1] or by
+# looping through the array to find beans.
+
+
+# What does a method return?
+#---------------------------
+
+# By default, a method will return the value of the last line of code that it
+# runs. You can set an explicit Return statement if you want something else
+# returned.
+
+# What kind of things can you pass into methods as arguments?
+#------------------------------------------------------------
+
+# You can pass any object as an argument, Fixnums, Strings, arrays, instances
+# of classes, and so on. You can also pass objects with attached methods
+# such as words.split if the method is expecting an array. I'm guessing that's
+# bad form though.
+
+
+# How can you pass information between methods?
+#----------------------------------------------
+
+# If one method (method_A) needs data from another method (method_B), then
+# you can ensure that method_B returns that data and pass method_B as 
+# an argument into method_A.
+
+
+# What concepts were solidified in this challenge, and what
+# concepts are still confusing?
+#----------------------------------------------------------
+
+# I got a better understanding of passing information between methods and
+# more practice working with hashes. It was also satisfying to pseudocode
+# with my pair. I'm not confused by any of the concepts but do recognize
+# that I should keep practicing with them.

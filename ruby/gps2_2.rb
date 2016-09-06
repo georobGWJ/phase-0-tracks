@@ -55,13 +55,13 @@ def pretty_print(groceries)
 end
 
 
-foods = create_hash('apple carrot cheese')
-p foods
-updated_foods = add_item(foods, 'pizza', 3)
-p foods
-remove_item(foods, 'carrot')
-p foods
-update_qty(foods, 'cheese', 20)
-p foods
+# foods = create_hash('apple carrot cheese')
+# p foods
+# updated_foods = add_item(foods, 'pizza', 3)
+# p foods
+# remove_item(foods, 'carrot')
+# p foods
+# update_qty(foods, 'cheese', 20)
+# p foods
 
-pretty_print(foods)
+# pretty_print(foods)

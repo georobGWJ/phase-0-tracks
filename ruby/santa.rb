@@ -2,7 +2,12 @@
 
 class Santa
 
-  def initialize
+  def initialize(gender, ethnicity)
+    @gender = gender
+    @ethnicity = ethnicity
+    @reindeer_ranking = ["Rudolph", "Dasher", "Dancer", "Prancer", "Vixen", 
+                         "Comet", "Cupid", "Donner", "Blitzen"]
+    @age = 0
     puts "Initializing Santa instance ..."
   end
 
@@ -17,6 +22,19 @@ class Santa
 end
 
 # Test Driver Code
-al = Santa.new
-al.speak
-al.eat_milk_and_cookies("Oreo")
+santa_applicants = {"female" => "Korean", 
+                    "male" => "Inuit", 
+                    "bigender" => "Irish",
+                    "no gender" => "Samoan",
+                    "idiot" => "Trump"}
+
+santas = []
+
+santa_applicants.each { | gend, ethn | santas << Santa.new(gend, ethn) }
+
+santas.each { |santa| p santa}
+# al = Santa.new("male", "ambiguous")
+# al.speak
+# al.eat_milk_and_cookies("Oreo")
+
+# p al

@@ -1,3 +1,5 @@
+# DBC Challenge 6.4
+
 module Shout
   
   def self.yell_angrily(words)
@@ -10,6 +12,7 @@ module Shout
 
 end
 
+# Test Driver Code
 p Shout.yell_angrily("I hate trains")
 
 p Shout.yelling_happily("I love cheeseburgers")

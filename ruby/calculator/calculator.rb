@@ -14,5 +14,9 @@ class Calculator
   def divide(x,y)
     x / y
   end
-  
+
+  # Test method to explore rspec
+  # def test_true(x)
+  #   x
+  # end
 end

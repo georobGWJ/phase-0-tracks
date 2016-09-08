@@ -24,4 +24,14 @@ describe Calculator do
   it "multiplies two integers" do
     expect(calculator.multiply(2,3)).to eq 6
   end
+
+  it "divides two integers" do
+    expect(calculator.divide(9,3)).to eq 3
+  end
+
+  # Test method to explore rspec
+  # it "Explore true-ish" do
+  #   expect(calculator.test_true(true)).to eq false
+  # end
+
 end

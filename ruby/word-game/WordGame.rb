@@ -2,7 +2,8 @@
 class WordGame
 
   attr_accessor :player1, :player2
-  attr_reader :phrase, :chars_guessed, :guesses_made, :guesses_allowed
+  attr_reader :phrase, :chars_guessed, :guesses_made, :guesses_allowed,
+              :phrases_guessed
 
   # Initialize the Class
   #   set class variable goal_phrase, this is passed in as an argument
@@ -47,17 +48,26 @@ class WordGame
   # User Guess Method
   #   Takes a string argument as input.
 
-  #   If the guess hasn't been made before, add the string to the phrases_guessed array and increment guesses_made
+  #   If the guess hasn't been made before, add the string to the 
+  #   phrases_guessed array and increment guesses_made
   #   Otherwise just continue
 
-  #   Attempt direct comparison of the input phrase and the goal phrase. If they match call self Win method.
+  #   Attempt direct comparison of the input phrase and the goal phrase. If 
+  #   they match call self Win method.
 
-  #   Otherwise, set a counter to 0 and loop through both the phrase guessed characters and the phrase nested array. Where characters in both match, change the flag in the nested array to true.
+  #   Otherwise, set a counter to 0 and loop through both the phrase guessed 
+  #   characters and the phrase nested array. Where characters in both match, change the flag in the nested array to true.
 
   #   Call self Print method
 
   #   If the number of guesses equals the number of guesses allowed call self Lose method
-  def user_guess
+  def user_guess(guess)
+    if !@phrases_guessed.include? guess 
+      @phrases_guessed << guess
+      @guesses_made += 1
+    end
+  
+  @phrases_guessed
   end
 
   # User Win Method

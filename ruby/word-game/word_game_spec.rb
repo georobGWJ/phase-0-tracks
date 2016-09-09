@@ -17,4 +17,10 @@ describe WordGame do
   it "Test initial pretty_print method response" do
     expect(game.pretty_print).to eq "_ _ _ _ _ _ _ _ _ "
   end
+
+  it "Test user_guess method with incorrect guess" do
+    game.user_guess("fumigator")
+    expect(game.phrases_guessed).to eq ["fumigator"]
+    expect(game.guesses_made).to eq 1
+  end
 end

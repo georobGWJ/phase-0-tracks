@@ -56,7 +56,8 @@ class WordGame
   #   they match call self Win method.
 
   #   Otherwise, set a counter to 0 and loop through both the phrase guessed 
-  #   characters and the phrase nested array. Where characters in both match, change the flag in the nested array to true.
+  #   characters and the phrase nested array. Where characters in both match, 
+  #   change the flag in the nested array to true.
 
   #   Call self Print method
 
@@ -66,14 +67,37 @@ class WordGame
       @phrases_guessed << guess
       @guesses_made += 1
     end
-  
-  @phrases_guessed
+    
+    if guess == @phrase
+      self.win
+    else
+      idx = 0
+      while idx < guess.length && idx < @phrase.length
+        if guess[idx] == @phrase[idx]
+          chars_guessed[idx][1] = true
+        end
+        idx += 1
+      end
+    end
+
+    self.pretty_print
+
+    if guesses_made == guesses_allowed
+      self.lose
+    end
   end
 
   # User Win Method
   #   Print a You Win! message
+  def win()
+    puts "Placeholder winning message!"
+  end
+
 
   # User Lose Method
   #   Print a You Lose! message
+  def lose()
+    puts "Placeholder losing message!"
+  end
 
 end

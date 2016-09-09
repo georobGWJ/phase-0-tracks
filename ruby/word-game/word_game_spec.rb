@@ -20,7 +20,8 @@ describe WordGame do
 
   it "Test user_guess method with incorrect guess" do
     game.user_guess("fumigator")
-    expect(game.phrases_guessed).to eq ["fumigator"]
+    expect(game.phrases_guessed).to include "fumigator"
     expect(game.guesses_made).to eq 1
+    expect(game.pretty_print).to eq "_ _ _ i g a t o r "
   end
 end

@@ -1,3 +1,5 @@
+# I worked with Meredith Jones, github ID: meredith-jones for Challenge 6.5
+# on 8 September 13:00 PDT
 
 class TodoList
 

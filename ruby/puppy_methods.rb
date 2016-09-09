@@ -1,3 +1,6 @@
+# I worked with Sierra McLawhorn, github ID: sierramclawhorn for Challenge 6.2
+# on 6 September 18:00 PDT
+
 class Puppy
 
   def initialize

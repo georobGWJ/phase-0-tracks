@@ -10,7 +10,7 @@ The user should get a congratulatory message if they win, and a taunting message
 Define the Word_Game class 
 
 Initialize the Class
-  set class variable goal_phrase, this is passed in as an argument
+  set class variables phrase, player1 and player2; these are passed in as arguments
 
   set class phrase nested array that stores each character in the goal_phrase and a false flag. When printing the partially guessed phrase, this flag will track if the user has guessed that character. For example the nested array for 'Nest' would be:
   [['N', false], ['e', false], ['s', false], ['t', false]]
@@ -20,6 +20,8 @@ Initialize the Class
   set class int variable guesses_made set to 0 to track how many guesses have been made
 
   set class int variable guesses_allowed using some logic to give more guesses for longer names
+
+  set boolean game_over flag
 
 Print Phrase Method
   Create a string by looping through the phrase nested array and appending the correct character if the flag is true and '_' if it is false
@@ -41,8 +43,8 @@ User Guess Method
 
 
 User Win Method
-  Print a You Win! message
+  Print a You Win! message and set game_over flag to true
 
 User Lose Method
-  Print a You Lose! message
+  Print a You Lose! message and set game_over flag to true
 

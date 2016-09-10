@@ -107,7 +107,7 @@ class WordGame
 
   end
 
-  def win()
+  def win
     puts "\nYou're a big winner. I'm gonna ask you a simple question and I" 
     puts "want you to listen to me: who's the big winner here tonight?" 
     puts "Huh? #{player2}, that's who. #{player2}'s the big winner."
@@ -116,7 +116,7 @@ class WordGame
   end
 
 
-  def lose()
+  def lose
     puts "\nYou had #{@guesses_allowed} guesses...  #{@guesses_allowed}, #{player2}!"
     puts "It looks like #{player1} outsmarted you."
     @game_over = true
@@ -148,8 +148,9 @@ while true
   game = WordGame.new(phrase, player1, player2)
 
   until game.game_over
-    puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-    puts "#{game.player2}, you have #{game.guesses_allowed - game.guesses_made} guesses remaining."
+    puts "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    puts "#{game.player2}, the word is #{game.phrase.length} characters long."
+    puts "You have #{game.guesses_allowed-game.guesses_made} guesses remaining."
     puts "Please enter your next guess:"
     game.user_guess(gets.chomp)
   end

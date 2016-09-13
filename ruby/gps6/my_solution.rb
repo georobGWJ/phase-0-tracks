@@ -31,19 +31,31 @@ class VirusPredictor
   # Uses pop density and population to predict how many people will die
   def predicted_deaths #(population_density, population, state)
     # predicted deaths is solely based on population density
+
+
     if @population_density >= 200
       number_of_deaths = (@population * 0.4).floor
-    elsif @population_density >= 150
-      number_of_deaths = (@population * 0.3).floor
-    elsif @population_density >= 100
-      number_of_deaths = (@population * 0.2).floor
-    elsif @population_density >= 50
-      number_of_deaths = (@population * 0.1).floor
+    elsif @population_density < 200 && @population_density >= 50
+      number_of_deaths = (@population * (@population_density.to_i/50) * 0.1).floor
     else
       number_of_deaths = (@population * 0.05).floor
     end
 
-    print "#{@state} will lose #{number_of_deaths} people in this outbreak"
+    print "#{@state} will lose #{number_of_deaths} people in this outbreak!!!\n"
+
+    # if @population_density >= 200
+    #   number_of_deaths = (@population * 0.4).floor
+    # elsif @population_density >= 150
+    #   number_of_deaths = (@population * 0.3).floor
+    # elsif @population_density >= 100
+    #   number_of_deaths = (@population * 0.2).floor
+    # elsif @population_density >= 50
+    #   number_of_deaths = (@population * 0.1).floor
+    # else
+    #   number_of_deaths = (@population * 0.05).floor
+    # end
+
+    # print "#{@state} will lose #{number_of_deaths} people in this outbreak"
 
   end
 
@@ -84,6 +96,7 @@ end
 
   # STATE_DATA[state_name] == pop_data # => true
 
+# Deprecated Driver Code
 
 # alabama = VirusPredictor.new("Alabama", STATE_DATA["Alabama"][:population_density], STATE_DATA["Alabama"][:population])
 # alabama.predicted_deaths
@@ -101,3 +114,13 @@ end
 
 #=======================================================================
 # Reflection Section
+#=======================================================================
+# What are the differences between the two different hash syntaxes shown in the state_data file?
+
+# What does require_relative do? How is it different from require?
+
+# What are some ways to iterate through a hash?
+
+# When refactoring virus_effects, what stood out to you about the variables, if anything?
+
+# What concept did you most solidify in this challenge?

@@ -17,3 +17,16 @@
 
 // Explicity return the reversed string variable
 
+function reverse_string(phrase) {
+  var input_string = phrase;
+  var reversed_string = ''
+
+  for (idx = phrase.length - 1; idx >= 0; idx -= 1) {
+    reversed_string += phrase[idx]
+  }
+
+  return reversed_string
+}
+
+// Test Driver Code
+// console.log(reverse_string("Eggplant"))

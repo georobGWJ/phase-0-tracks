@@ -5,8 +5,6 @@
 // Define Function reverse_string
 //   This function takes a string as an argument and returns a reversed string.
 
-// Assign variable to hold string
-
 // Assign variable with an empty string to hold the reversed string
 
 // Use a for while loop to iterate through input string
@@ -20,8 +18,7 @@
 
 // IMPLEMENTED CODE:
 function reverse_string(phrase) {
-  var input_string = phrase;
-  var reversed_string = ''
+  var reversed_string = '';
 
   for (idx = phrase.length - 1; idx >= 0; idx -= 1) {
     reversed_string += phrase[idx]

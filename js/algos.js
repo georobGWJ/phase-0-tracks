@@ -2,9 +2,6 @@
 // Release 0: Write a function that takes an array of words or phrases and 
 // returns the longest word or phrase in the array. 
 
-// So if we gave your function the array of 
-// ["long phrase","longest phrase","longer phrase"], it would return 
-// "longest phrase". 
 
 // Release 0 PSEUDOCODE
 //   This function takes an array of string elements and returns a string
@@ -22,3 +19,18 @@
 //  Explicitly return the longest word phrase
 
 // Release 0 IMPLEMENTED CODE
+function find_longest(phrases) {
+  var longest_phrase = '';
+
+  for (idx = 0; idx < phrases.length; idx++) {
+    if (phrases[idx].length > longest_phrase.length) {
+      longest_phrase = phrases[idx]
+    }
+  }
+  return longest_phrase
+}
+
+// Test Driver Code
+some_words = ['cheese', 'cat', 'cantaloupe', 'catamaran', 'cirronimbus clouds']
+
+ console.log("The longest word or phrase is '" + find_longest(some_words) + "'.")

@@ -52,32 +52,28 @@ function find_longest(phrases) {
 // Release 1 IMPLEMENTED CODE
 function key_value_match(object1, object2) {
   var match_flag = false;
-  var object1 = object1;
-  var object2 = object2;
   var object1_keys = Object.keys(object1);
-  var object2_keys = Object.keys(object2);
 
   for (idx = 0; idx < object1_keys.length; idx++) {
-      obj1_key = String(object1_keys[idx]);
+    key = String(object1_keys[idx]);
 
-    for (jdx = 0; jdx < object2_keys.length; jdx++) {
-      obj2_key = object2_keys[jdx];
-
-      if (object1[obj1_key] == object2[obj2_key]) {
-        match_flag = true;
-        break;
-      }
+    if (object1[key] == object2[key]) {
+      match_flag = true;
+      break;
     }
   }
+
 return match_flag
 }
 
 // RELEASE 1 Test Driver Code
-cat = {name: 'Tom', age: 7, fav_food: 'mice'}
+cat1 = {name: 'Tom', age: 7, fav_food: 'mice'}
+cat2 = {name: 'Heathcliff', age: 7, fav_food: 'mice'}
 mouse1 = {name: 'Jerry', age: 3, fav_food: 'cheddar'}
 mouse2 = {name: 'Micky', age: 70, fav_food: 'cheddar'}
 
-console.log(key_value_match(cat, mouse1))
+console.log(key_value_match(cat1, cat2))
+console.log(key_value_match(cat1, mouse1))
 console.log(key_value_match(mouse1, mouse2))
 
 // RELEASE 0 Test Driver Code

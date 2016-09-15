@@ -25,10 +25,10 @@ function find_longest(phrases) {
 
   for (idx = 0; idx < phrases.length; idx++) {
     if (phrases[idx].length > longest_phrase.length) {
-      longest_phrase = phrases[idx]
+      longest_phrase = phrases[idx];
     }
   }
-  return longest_phrase
+  return longest_phrase;
 }
 
 //==========================================================
@@ -68,7 +68,7 @@ function key_value_match(object1, object2) {
     }
   }
 
-return match_flag
+return match_flag;
 }
 
 
@@ -109,12 +109,28 @@ return match_flag
 // RELEASE 2 IMPLEMENTED CODE
 
 function random_words(num_of_words) {
-  
+  fake_words = [];
+  alphabet = 'aaaabcdeeeefghiiiijklmnoooopqrstuuuuvwxyyyyz' ;
+
+  for (count = 0; count < num_of_words; count ++) {
+    fake_word = '';
+    word_length = Math.floor(Math.random() * 10) + 1;
+
+    for (letters = 0; letters < word_length; letters++) {
+      str_idx = Math.floor(Math.random() * (alphabet.length + 1));
+      fake_word += alphabet[str_idx];
+    }
+    fake_words.push(fake_word);
+  }
+  return fake_words;
 }
 
-//==========================================================
-// RELEASE 2 Test Driver Code
 
+//==========================================================
+// RELEASE 0 Test Driver Code
+// some_words = ['cheese', 'cantaloupe', 'catamaran', 'cirronimbus clouds', 'cat']
+
+// console.log("The longest word or phrase is '" + find_longest(some_words) + "'.")
 
 //==========================================================
 // RELEASE 1 Test Driver Code
@@ -127,9 +143,7 @@ function random_words(num_of_words) {
 // console.log(key_value_match(cat1, mouse1))
 // console.log(key_value_match(mouse1, mouse2))
 
-
 //==========================================================
-// RELEASE 0 Test Driver Code
-// some_words = ['cheese', 'cantaloupe', 'catamaran', 'cirronimbus clouds', 'cat']
-
-//  console.log("The longest word or phrase is '" + find_longest(some_words) + "'.")
+// RELEASE 2 Test Driver Code
+// console.log(random_words(3))
+// console.log(random_words(5))

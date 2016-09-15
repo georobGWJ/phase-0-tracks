@@ -1,10 +1,9 @@
 // DBC Challenge 7.3
-// Release 0: Write a function that takes an array of words or phrases and 
+// RELEASE 0: Write a function that takes an array of words or phrases and 
 // returns the longest word or phrase in the array. 
 
 
 // Release 0 PSEUDOCODE
-//   This function takes an array of string elements and returns a string
 
 // Define function longest_element
 //   This function takes an array of string elements and returns a string
@@ -30,7 +29,32 @@ function find_longest(phrases) {
   return longest_phrase
 }
 
-// Test Driver Code
-some_words = ['cheese', 'cat', 'cantaloupe', 'catamaran', 'cirronimbus clouds']
+// RELEASE 1: Write a function that takes two objects and checks to see if the 
+// objects share at least one key-value pair. 
+
+// Release 1 PSEUDOCODE
+// Define function key_value_match
+//   This function takes two object and looks for matching key-value pairs. If
+//   at least one matching pair is found the function returns True, otherwise
+//   it returns False
+
+//   Create a Boolean variable set to false to use as flag for matching pairs found
+
+//   Create a nested loop to compart the key value pairs from the two objects
+//     The outer loop will step through the keys in Object 1
+//       For each key, a nested loop will step through the keys in Object 2
+//         The keys and values from Object 1 will be logically compared to those
+//         in Object 2. If any matches are found, the matching pair flag
+//         will be set to true and the loop will exit
+
+//   Explicity return the matching pair flag
+
+// Release 0 IMPLEMENTED CODE
+
+
+// RELEASE 0 Test Driver Code
+some_words = ['cheese', 'cantaloupe', 'catamaran', 'cirronimbus clouds', 'cat']
 
  console.log("The longest word or phrase is '" + find_longest(some_words) + "'.")
+
+ // RELEASE 1 Test Driver Code

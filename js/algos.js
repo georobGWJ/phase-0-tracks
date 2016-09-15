@@ -40,12 +40,13 @@ function find_longest(phrases) {
 
 //   Create a Boolean variable set to false to use as flag for matching pairs found
 
-//   Create a nested loop to compart the key value pairs from the two objects
-//     The outer loop will step through the keys in Object 1
-//       For each key, a nested loop will step through the keys in Object 2
-//         The keys and values from Object 1 will be logically compared to those
-//         in Object 2. If any matches are found, the matching pair flag
-//         will be set to true and the loop will exit
+//   Create a loop to compare the key value pairs from the two objects
+//     The loop will step through the keys in Object 1
+//       For each key, The keys and values from Object 1 will be logically 
+//         compared to those in Object 2. If the key doesn't even exist in 
+//         Object2, no matches are possible. If the key exists in both Objects
+//         and any matches are found, the matching pair flag will be set to 
+//         true and the loop will exit
 
 //   Explicity return the matching pair flag
 
@@ -67,14 +68,14 @@ return match_flag
 }
 
 // RELEASE 1 Test Driver Code
-cat1 = {name: 'Tom', age: 7, fav_food: 'mice'}
-cat2 = {name: 'Heathcliff', age: 7, fav_food: 'mice'}
-mouse1 = {name: 'Jerry', age: 3, fav_food: 'cheddar'}
-mouse2 = {name: 'Micky', age: 70, fav_food: 'cheddar'}
+// cat1 = {name: 'Tom', age: 7, fav_food: 'mice'}
+// cat2 = {name: 'Heathcliff', age: 7, fav_food: 'mice'}
+// mouse1 = {name: 'Jerry', age: 3, fav_food: 'cheddar'}
+// mouse2 = {name: 'Micky', age: 70, fav_food: 'cheddar'}
 
-console.log(key_value_match(cat1, cat2))
-console.log(key_value_match(cat1, mouse1))
-console.log(key_value_match(mouse1, mouse2))
+// console.log(key_value_match(cat1, cat2))
+// console.log(key_value_match(cat1, mouse1))
+// console.log(key_value_match(mouse1, mouse2))
 
 // RELEASE 0 Test Driver Code
 // some_words = ['cheese', 'cantaloupe', 'catamaran', 'cirronimbus clouds', 'cat']

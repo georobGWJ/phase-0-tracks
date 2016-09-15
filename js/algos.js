@@ -117,7 +117,7 @@ function random_words(num_of_words) {
     word_length = Math.floor(Math.random() * 10) + 1;
 
     for (letters = 0; letters < word_length; letters++) {
-      str_idx = Math.floor(Math.random() * (alphabet.length + 1));
+      str_idx = Math.floor(Math.random() * alphabet.length);
       fake_word += alphabet[str_idx];
     }
     fake_words.push(fake_word);
@@ -147,3 +147,18 @@ function random_words(num_of_words) {
 // RELEASE 2 Test Driver Code
 // console.log(random_words(3))
 // console.log(random_words(5))
+
+//==========================================================
+// Integrated Driver Code
+// Driver code does the following 10 times: 
+//   generates an array, 
+//   prints the array, 
+//   feeds the array to your "longest word" function, 
+//   and prints the result.
+
+for (runs = 0; runs < 10; runs++) {
+  random_array = random_words(8);
+  console.log("Your random array is:\n" + random_array + "\n");
+  console.log("The longest word in that array is:\n" +
+               find_longest(random_array) + "\n");
+}

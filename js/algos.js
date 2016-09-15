@@ -109,15 +109,15 @@ return match_flag;
 // RELEASE 2 IMPLEMENTED CODE
 
 function random_words(num_of_words) {
-  fake_words = [];
-  alphabet = 'aaaabcdeeeefghiiiijklmnoooopqrstuuuuvwxyyyyz' ;
+  var fake_words = [];
+  var alphabet = 'aaaabcdeeeefghiiiijklmnoooopqrstuuuuvwxyyyyz' ;
 
   for (count = 0; count < num_of_words; count ++) {
-    fake_word = '';
-    word_length = Math.floor(Math.random() * 10) + 1;
+    var fake_word = '';
+    var word_length = Math.floor(Math.random() * 10) + 1;
 
     for (letters = 0; letters < word_length; letters++) {
-      str_idx = Math.floor(Math.random() * alphabet.length);
+      var str_idx = Math.floor(Math.random() * alphabet.length);
       fake_word += alphabet[str_idx];
     }
     fake_words.push(fake_word);
@@ -157,7 +157,7 @@ function random_words(num_of_words) {
 //   and prints the result.
 
 for (runs = 0; runs < 10; runs++) {
-  random_array = random_words(8);
+  var random_array = random_words(8);
   console.log("Your random array is:\n" + random_array + "\n");
   console.log("The longest word in that array is:\n" +
                find_longest(random_array) + "\n");

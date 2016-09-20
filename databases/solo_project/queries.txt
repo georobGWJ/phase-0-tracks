@@ -1,7 +1,7 @@
 ===============================================
 SQLite Commands for DBC Challenge 8.3 Release 2
 ===============================================
-.separator " | "
+sqlite> .separator " | "
 
 sqlite> SELECT * FROM video_games;
 
@@ -76,3 +76,54 @@ sqlite> SELECT video_game_id, title, price, developers.name as developers
 ===============================================
 SQLite Commands for DBC Challenge 8.3 Release 3
 ===============================================
+sqlite> .separator " | "
+
+LEFT JOIN
+=========
+sqlite> SELECT video_game_id, title, developers.name as developers 
+   ...> FROM video_games LEFT JOIN developers
+   ...> ON video_games.developer_id = developers.developer_id ORDER BY title;                        
+6 | Bastion | Supergiant Games
+4 | Deus Ex: Human Revolution | Eidos Montreal
+5 | Deus Ex: Mankind Divided | Eidos Montreal
+2 | Drox Operative | Soldak Entertainment
+9 | Tales from the Borderlands | Telltale Games
+8 | The Walking Dead | Telltale Games
+10 | The Wolf Among Us | Telltale Games
+7 | Transistor | Supergiant Games
+1 | Zombasite | Soldak Entertainment
+
+sqlite> SELECT video_game_id, title,price, developers.name as developers 
+   ...> FROM video_games LEFT JOIN developers
+   ...> ON video_games.developer_id = developers.developer_id 
+   ...> WHERE name = "Telltale Games";
+
+8 | The Walking Dead | 24.99 | Telltale Games
+9 | Tales from the Borderlands | 24.99 | Telltale Games
+10 | The Wolf Among Us | 24.99 | Telltale Games
+
+SELF-JOIN
+=========
+sqlite> SELECT DISTINCT vg1.video_game_id, vg1.title, 
+   ...> vg1.metacritic_score, vg1.price
+   ...> FROM video_games vg1
+   ...> INNER JOIN video_games vg2 ON vg2.price = vg1.price
+   ...> AND (vg1.title != vg2.title);
+1 | Zombasite |  | 19.99
+2 | Drox Operative | 74 | 19.99
+7 | Transistor | 83 | 19.99
+8 | The Walking Dead | 82 | 24.99
+9 | Tales from the Borderlands | 85 | 24.99
+10 | The Wolf Among Us | 85 | 24.99
+
+UNION JOIN
+==========
+sqlite> SELECT * FROM video_games WHERE developer_id = 1
+   ...> UNION
+   ...> SELECT * FROM video_games WHERE developer_id = 3
+   ...> ORDER BY title;
+
+6 | Bastion | 14.99 | 86 | false | 3
+2 | Drox Operative | 19.99 | 74 | false | 1
+7 | Transistor | 19.99 | 83 | false | 3
+1 | Zombasite | 19.99 |  | false | 1

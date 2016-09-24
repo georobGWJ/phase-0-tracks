@@ -70,16 +70,19 @@ def create_db(db_name)
   db.execute(create_borehole_table)
   db.execute(create_sample_table)
 
-  return db
+  db
 end
 
 # Load an existing database
-def open_db(name)
-
+def open_db(db_name)
+  db = SQLite3::Database.open(db_name)
+  db.results_as_hash = true
+  db
 end
 
 # View all single table data
-def view_table(table)
+def view_table(db, table)
+  db.execute("SELECT * FROM #{table}")
 end
 
 # Add Project to database
@@ -87,17 +90,23 @@ def add_project()
 end
 
 # Add Borehole to database
-def add_project()
+def add_borehole()
 end
 
 # Add geologist to database
-def add_project()
+def add_geo()
 end
 
 # Add sample to database
-def add_project()
+def add_sample()
 end
 
 
 # TEST DRIVER CODE
-create_db("test")
+# create_db("test")
+db = open_db("test.db")
+
+# db.execute("INSERT INTO projects (name, client) VALUES ('WLS Lee III', 'Duke')")
+# db.execute("INSERT INTO projects (name, client) VALUES ('JWPCP', 'LACSD')")
+
+puts view_table(db, "projects")

@@ -32,8 +32,8 @@
     <type label="SET" length="1" sql="SET" quote=""/>
     <type label="Bit" length="0" sql="bit" quote=""/>
   </group>
-</datatypes><table x="368" y="11" name="Borehole">
-<row name="bh_id" null="1" autoincrement="1">
+</datatypes><table x="617" y="102" name="Boreholes">
+<row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
 <row name="designation" null="1" autoincrement="0">
@@ -48,26 +48,26 @@
 <row name="elevation" null="1" autoincrement="0">
 <datatype>DECIMAL</datatype>
 <default>NULL</default></row>
-<row name="crew_id" null="1" autoincrement="0">
+<row name="project_id" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
-<default>NULL</default><relation table="Drill_Crews" row="crew_id" />
+<default>NULL</default><relation table="Projects" row="id" />
 </row>
 <key type="UNIQUE" name="">
-<part>bh_id</part>
+<part>id</part>
 <part>designation</part>
 </key>
 </table>
-<table x="601" y="12" name="Soil_Samples">
-<row name="sample_id" null="1" autoincrement="1">
+<table x="372" y="42" name="Soil_Samples">
+<row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
 <row name="bh_id" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
-<default>NULL</default><relation table="Borehole" row="bh_id" />
+<default>NULL</default><relation table="Boreholes" row="id" />
 </row>
 <row name="logger_id" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
-<default>NULL</default><relation table="Rig_Geologists" row="geo_id" />
+<default>NULL</default><relation table="Rig_Geologists" row="id" />
 </row>
 <row name="depth" null="1" autoincrement="0">
 <datatype>DECIMAL</datatype>
@@ -75,10 +75,6 @@
 <row name="USCS" null="1" autoincrement="0">
 <datatype>VARCHAR(63)</datatype>
 <default>NULL</default></row>
-<row name="method_id" null="1" autoincrement="0">
-<datatype>INTEGER</datatype>
-<default>NULL</default><relation table="Sample_Method" row="method_id" />
-</row>
 <row name="color" null="1" autoincrement="0">
 <datatype>VARCHAR(255)</datatype>
 <default>NULL</default></row>
@@ -103,48 +99,12 @@
 <row name="other" null="1" autoincrement="0">
 <datatype>VARCHAR(255)</datatype>
 <default>NULL</default></row>
-<key type="PRIMARY" name="">
-<part>sample_id</part>
-</key>
-</table>
-<table x="101" y="12" name="Drill_Crews">
-<row name="crew_id" null="1" autoincrement="1">
-<datatype>INTEGER</datatype>
-<default>NULL</default></row>
-<row name="rig" null="1" autoincrement="0">
-<datatype>VARCHAR(255)</datatype>
-<default>NULL</default></row>
-<row name="driller" null="1" autoincrement="0">
-<datatype>VARCHAR(255)</datatype>
-<default>NULL</default></row>
-<row name="company" null="1" autoincrement="0">
-<datatype>VARCHAR(255)</datatype>
-<default>NULL</default></row>
-<row name="geo_id" null="1" autoincrement="0">
-<datatype>INTEGER</datatype>
-<default>NULL</default><relation table="Rig_Geologists" row="geo_id" />
-</row>
 <key type="UNIQUE" name="">
-<part>crew_id</part>
-<part>driller</part>
+<part>id</part>
 </key>
 </table>
-<table x="808" y="127" name="Sample_Method">
-<row name="method_id" null="1" autoincrement="1">
-<datatype>INTEGER</datatype>
-<default>NULL</default></row>
-<row name="method" null="1" autoincrement="0">
-<datatype>VARCHAR(255)</datatype>
-<default>NULL</default></row>
-<row name="disturbed" null="1" autoincrement="0">
-<datatype>BINARY</datatype>
-<default>NULL</default></row>
-<key type="PRIMARY" name="">
-<part>method_id</part>
-</key>
-</table>
-<table x="370" y="222" name="Rig_Geologists">
-<row name="geo_id" null="1" autoincrement="1">
+<table x="147" y="88" name="Rig_Geologists">
+<row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
 <row name="geo_name" null="1" autoincrement="0">
@@ -154,8 +114,22 @@
 <datatype>VARCHAR(255)</datatype>
 <default>NULL</default></row>
 <key type="UNIQUE" name="">
-<part>geo_id</part>
+<part>id</part>
 <part>geo_name</part>
+</key>
+</table>
+<table x="812" y="242" name="Projects">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="name" null="1" autoincrement="0">
+<datatype>VARCHAR(255)</datatype>
+<default>NULL</default></row>
+<row name="client" null="1" autoincrement="0">
+<datatype>VARCHAR(255)</datatype>
+<default>NULL</default></row>
+<key type="UNIQUE" name="">
+<part>id</part>
 </key>
 </table>
 </sql>

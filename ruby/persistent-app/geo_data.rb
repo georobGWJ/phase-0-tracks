@@ -91,7 +91,17 @@ def add_project(db, name, client = nil)
 end
 
 # Add Borehole to database
-def add_borehole(db)
+def add_borehole(db, desig, north, east, elev, proj_id)
+
+  # add_borehole_data = <<-SQL
+  # INSERT INTO boreholes (designation, northing, easting, elevation, project_id)
+  #   VALUES (#{desig}, north, east, elev, proj_id)
+  # SQL
+
+  # db.execute(add_borehole_data)
+  db.execute("INSERT INTO boreholes 
+    (designation, northing, easting, elevation, project_id)
+    VALUES (?, ?, ?, ?, ?)", [desig, north, east, elev, proj_id])
 end
 
 # Add geologist to database
@@ -110,7 +120,10 @@ db = open_db("test.db")
 
 # db.execute("INSERT INTO projects (name, client) VALUES ('WLS Lee III', 'Duke')")
 # db.execute("INSERT INTO projects (name, client) VALUES ('JWPCP', 'LACSD')")
+#puts view_table(db, "projects")
 
-puts view_table(db, "projects")
-add_geo(db, "Rob Turner", "Worldwide Domination Inc.")
-puts view_table(db, "geologists")
+#add_geo(db, "Rob Turner", "Worldwide Domination Inc.")
+#puts view_table(db, "geologists")
+
+add_borehole(db, "BPH-02", 330, 120, 12, 1)
+puts view_table(db, "boreholes")

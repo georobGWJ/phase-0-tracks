@@ -86,15 +86,17 @@ def view_table(db, table)
 end
 
 # Add Project to database
-def add_project()
+def add_project(db, name, client = nil)
+  db.execute("INSERT INTO projects (name, client) VALUES (?, ?)", [name, client])
 end
 
 # Add Borehole to database
-def add_borehole()
+def add_borehole(db)
 end
 
 # Add geologist to database
-def add_geo()
+def add_geo(db, name, company = nil )
+  db.execute("INSERT INTO geologists (name, company) VALUES (?, ?)", [name, company])
 end
 
 # Add sample to database
@@ -110,3 +112,5 @@ db = open_db("test.db")
 # db.execute("INSERT INTO projects (name, client) VALUES ('JWPCP', 'LACSD')")
 
 puts view_table(db, "projects")
+add_geo(db, "Rob Turner", "Worldwide Domination Inc.")
+puts view_table(db, "geologists")

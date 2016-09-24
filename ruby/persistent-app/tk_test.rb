@@ -56,7 +56,7 @@ TkLabel.new(frame1) do
   pack { padx 15 ; pady 15; side 'left' }
 end
 
-frame2 = TkFrame.new
+#frame2 = TkFrame.new
   
 
 Tk.mainloop

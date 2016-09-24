@@ -106,11 +106,21 @@ end
 
 # Add geologist to database
 def add_geo(db, name, company = nil )
-  db.execute("INSERT INTO geologists (name, company) VALUES (?, ?)", [name, company])
+  db.execute("INSERT INTO geologists (name, company) 
+              VALUES (?, ?)", [name, company])
 end
 
 # Add sample to database
-def add_sample()
+def add_sample(db, bh, geo, depth, uscs, color, wetness, pgravel, psand, pfines,
+               toughness, plasticity, other)
+  db.execute("INSERT INTO samples 
+    (bh_id, logger_id, depth, USCS, color, wetness, percent_gravel, 
+     percent_sand, percent_fines, plasticity, toughness, other)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+    [bh, geo, depth, uscs, color, wetness, pgravel, psand, pfines, toughness, 
+     plasticity, other])
+
+
 end
 
 
@@ -120,10 +130,14 @@ db = open_db("test.db")
 
 # db.execute("INSERT INTO projects (name, client) VALUES ('WLS Lee III', 'Duke')")
 # db.execute("INSERT INTO projects (name, client) VALUES ('JWPCP', 'LACSD')")
-#puts view_table(db, "projects")
+# puts view_table(db, "projects")
 
-#add_geo(db, "Rob Turner", "Worldwide Domination Inc.")
-#puts view_table(db, "geologists")
+# add_geo(db, "Rob Turner", "Worldwide Domination Inc.")
+# puts view_table(db, "geologists")
 
-add_borehole(db, "BPH-02", 330, 120, 12, 1)
-puts view_table(db, "boreholes")
+# add_borehole(db, "BPH-02", 330, 120, 12, 1)
+# puts view_table(db, "boreholes")
+
+# add_sample(db, 1, 1, 15, "SP", "olive", "damp", 0, 97, 3,
+#                nil, nil, "subrounded to rounded fine sand")
+# puts view_table(db, "samples")

@@ -87,6 +87,18 @@ def view_table(db, table)
   db.execute("SELECT * FROM #{table}")
 end
 
+# Pretty Print Project Table Data
+def pp_project(db)
+  data = db.execute("SELECT * FROM projects")
+  pp_string = ''
+  data.each do |project|
+    pp_string += "Project:   #{project['name']}\t"
+    pp_string += "Client:   #{project['client']}\n\n"
+  end
+  pp_string
+end
+
+
 # Add Project to database
 def add_project(db, name, client = nil)
   db.execute("INSERT INTO projects (name, client) VALUES (?, ?)", [name, client])
@@ -119,22 +131,12 @@ end
 
 
 # TEST DRIVER CODE
-# create_db("test")
+
 db = open_db("test.db")
-puts db
-# db.execute("INSERT INTO projects (name, client) VALUES ('WLS Lee III', 'Duke')")
-# db.execute("INSERT INTO projects (name, client) VALUES ('JWPCP', 'LACSD')")
-# puts view_table(db, "projects")
 
-# add_geo(db, "Rob Turner", "Worldwide Domination Inc.")
-# puts view_table(db, "geologists")
+words = pp_project(db)
 
-# add_borehole(db, "BPH-02", 330, 120, 12, 1)
-# puts view_table(db, "boreholes")
-
-# add_sample(db, 1, 1, 15, "SP", "olive", "damp", 0, 97, 3,
-#                nil, nil, "subrounded to rounded fine sand")
-# puts view_table(db, "samples")
+# data = db.execute("SELECT * FROM projects")
 
 #============================================================================
 #    GUI CODE
@@ -192,9 +194,9 @@ proj_f1 = Tk::Tile::Frame.new(project_tab) {borderwidth 1; relief "solid"}.
 grid( :column => 0, :row => 0, :sticky => 'nsew' )
 
 proj_f2 = Tk::Tile::Frame.new(project_tab) {borderwidth 1; relief "solid"}.
-grid( :column => 2, :row => 0, :sticky => 'nsew' )
+grid( :column => 0, :row => 1, :sticky => 'nsew' )
 
-# Placeholder widgets in proj_f1
+# Widgets to add new project to database
 tk_name = TkVariable.new
 tk_client = TkVariable.new
 
@@ -217,18 +219,18 @@ grid( :column => 3, :row => 3, :sticky => 'we' )
 Tk::Tile::Separator.new(proj_f1) { orient 'horizontal' }.
 grid( :column => 0, :row => 4, :columnspan => 5, :sticky => 'ew')
 
-Tk::Tile::Button.new(proj_f1) {text 'Add Project'; command {add_project(db, tk_name.to_s, tk_client.to_s)}}.
+Tk::Tile::Button.new(proj_f1) {text 'Add Project'; 
+command {add_project(db, tk_name.to_s, tk_client.to_s)}}.
 grid( :column => 3, :row => 5, :sticky => 'ew')
 
-# Placeholder widgets in proj_f2
-$feet = TkVariable.new; $meters = TkVariable.new
-f = Tk::Tile::Entry.new(proj_f2) {width 7; textvariable $feet}.grid( :column => 2, :row => 1, :sticky => 'we' )
-Tk::Tile::Label.new(proj_f2) {textvariable $meters}.grid( :column => 2, :row => 2, :sticky => 'we');
-# Tk::Tile::Button.new(proj_f2) {text 'Calculate'; command {calculate}}.grid( :column => 3, :row => 3, :sticky => 'w')
+# Widgets to display Project table data
+project_data = view_table(db, "projects")
 
-Tk::Tile::Label.new(proj_f2) {text 'feet'}.grid( :column => 3, :row => 1, :sticky => 'w')
-Tk::Tile::Label.new(proj_f2) {text 'is equivalent to'}.grid( :column => 1, :row => 2, :sticky => 'e')
-Tk::Tile::Label.new(proj_f2) {text 'meters'}.grid( :column => 3, :row => 2, :sticky => 'w')
+data = Tk::Tile::Label.new(proj_f2) { text words }.grid( :column => 0, :row => 0)
+
+Tk::Tile::Button.new(proj_f2) {text 'Update'; command {data['text'] = pp_project(db)}}.
+grid( :column => 3, :row => 3, :sticky => 'ew')
+
 
 
 #============================================================================

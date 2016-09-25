@@ -104,6 +104,30 @@ def pp_data(db, table)
 end
 
 
+def pp_sample(db)
+  data = data = view_table(db, "samples")
+  pp_string = ''
+
+  data.each do |entry|
+
+    pp_string += "| ID: " + ('%-3s' % "#{entry['id']}")
+    pp_string += "| Boring: " + ('%-3s' % "#{entry['bh_id']}")
+    pp_string += "| Geo: " + ('%-3s' % "#{entry['logger_id']}")
+    pp_string += "| " + ('%-20s' % "#{entry['USCS']}")
+    pp_string += "| Color: " + ('%-10s' % "#{entry['color']}")
+    pp_string += "| Moisture: " + ('%-5s' % "#{entry['wetness']}\n")
+    pp_string += "| Gravel %: " + ('%-3s' % "#{entry['percent_gravel']}")
+    pp_string += "| Sand %: " + ('%-3s' % "#{entry['percent_sand']}")
+    pp_string += "| Fines %: " + ('%-3s' % "#{entry['percent_fines']}")
+    pp_string += "| Plasticity: " + ('%-8s' % "#{entry['plasticity']}")
+    pp_string += "| Toughness: " + ('%-8s' % "#{entry['toughness']}")
+    pp_string += "| Other: " + ('%-30s' % "#{entry['other']}")
+
+    pp_string += "\n\n"
+  end
+  pp_string
+end
+
 # Add Project to database
 def add_project(db, name, client = nil)
   db.execute("INSERT INTO projects (name, client) VALUES (?, ?)", [name, client])
@@ -495,11 +519,11 @@ grid( :column => 5, :row => 8, :sticky => 'ew')
 # Widgets to display Borehole table data
 project_data = view_table(db, "boreholes")
 
-data = Tk::Tile::Label.new(sample_f2_top) { text pp_data(db, "samples") }.
+data = Tk::Tile::Label.new(sample_f2_top) { text pp_sample(db) }.
 grid( :column => 0, :row => 0)
 
 Tk::Tile::Button.new(sample_f2_bottom) {text 'Refresh'; 
-command {data['text'] = pp_data(db, "samples")}}.
+command {data['text'] = pp_sample(db)}}.
 grid( :column => 0, :row => 3, :sticky => 'ew')
 
 

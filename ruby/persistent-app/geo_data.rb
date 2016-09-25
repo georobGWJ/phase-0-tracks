@@ -134,13 +134,14 @@ db = open_db("test.db")
 #                nil, nil, "subrounded to rounded fine sand")
 # puts view_table(db, "samples")
 
-#================
+#============================================================================
 #    GUI CODE
-#================
+#============================================================================
 # Many thanks to http://www.tkdocs.com/tutorial/grid.html for learning
 # tk and Ruby
 
 # Create master window
+#============================================================================
 root = TkRoot.new do 
   title "Geotechnical Database" 
   minsize(1200,640)
@@ -153,6 +154,7 @@ tabs = Tk::Tile::Notebook.new(root) do
 end
 
 # Create Tab Pages
+#============================================================================
 main_tab = Tk::Tile::Frame.new(tabs)
 project_tab = Tk::Tile::Frame.new(tabs)
 bh_tab = Tk::Tile::Frame.new(tabs)
@@ -168,37 +170,119 @@ tabs.add geo_tab, :text => 'Geologists'
 tabs.add sample_tab, :text => 'Samples'
 tabs.add query_tab, :text => 'Queries'
 
-# Create Sub-Frames
+# Populate Welcome Page Tab
+#============================================================================
+main_f1 = Tk::Tile::Frame.new(main_tab) {borderwidth 1; relief "solid"}.
+grid( :column => 0, :row => 0, :sticky => 'nsew' )
+
+# welcome_f2 = Tk::Tile::Frame.new(project_tab) {borderwidth 1; relief "solid"}.
+# grid( :column => 2, :row => 0, :sticky => 'nsew' )
+
+Tk::Tile::Label.new(main_f1) {text '          '}.grid( :column => 0, :row => 0, :sticky => 'nsew')
+Tk::Tile::Label.new(main_f1) {text ' WELCOME! '}.grid( :column => 1, :row => 1, :sticky => 'nsew')
+Tk::Tile::Label.new(main_f1) {text '          '}.grid( :column => 2, :row => 2, :sticky => 'nsew')
+
+# Populate Projects Tab
+#============================================================================
 proj_f1 = Tk::Tile::Frame.new(project_tab) {borderwidth 1; relief "solid"}.
 grid( :column => 0, :row => 0, :sticky => 'nsew' )
 
 proj_f2 = Tk::Tile::Frame.new(project_tab) {borderwidth 1; relief "solid"}.
-grid( :column => 1, :row => 0, :sticky => 'nsew' )
+grid( :column => 2, :row => 0, :sticky => 'nsew' )
 
-sub1 = Tk::Tile::Frame.new(proj_f1) {padding "3 3 12 12"}.grid( :sticky => 'nsew')
-
+# Placeholder widgets in proj_f1
 $feet = TkVariable.new; $meters = TkVariable.new
-f = Tk::Tile::Entry.new(sub1) {width 7; textvariable $feet}.grid( :column => 2, :row => 1, :sticky => 'we' )
-Tk::Tile::Label.new(sub1) {textvariable $meters}.grid( :column => 2, :row => 2, :sticky => 'we');
-Tk::Tile::Button.new(sub1) {text 'Calculate'; command {calculate}}.grid( :column => 3, :row => 3, :sticky => 'w')
+f = Tk::Tile::Entry.new(proj_f1) {width 7; textvariable $feet}.grid( :column => 2, :row => 1, :sticky => 'we' )
+Tk::Tile::Label.new(proj_f1) {textvariable $meters}.grid( :column => 2, :row => 2, :sticky => 'we');
+Tk::Tile::Button.new(proj_f1) {text 'Calculate'; command {calculate}}.grid( :column => 3, :row => 3, :sticky => 'w')
 
-Tk::Tile::Label.new(sub1) {text 'feet'}.grid( :column => 3, :row => 1, :sticky => 'w')
-Tk::Tile::Label.new(sub1) {text "is equivalent to\nthis amazing value"}.grid( :column => 1, :row => 2, :sticky => 'e')
-Tk::Tile::Label.new(sub1) {text 'meters'}.grid( :column => 3, :row => 2, :sticky => 'w')
+Tk::Tile::Label.new(proj_f1) {text 'feet'}.grid( :column => 3, :row => 1, :sticky => 'w')
+Tk::Tile::Label.new(proj_f1) {text "is equivalent to\nthis amazing value"}.grid( :column => 1, :row => 2, :sticky => 'e')
+Tk::Tile::Label.new(proj_f1) {text 'meters'}.grid( :column => 3, :row => 2, :sticky => 'w')
 
-
-sub2 = Tk::Tile::Frame.new(proj_f2) {padding "3 3 12 12"}.grid( :sticky => 'nsew')
-
+# Placeholder widgets in proj_f2
 $feet = TkVariable.new; $meters = TkVariable.new
-f = Tk::Tile::Entry.new(sub2) {width 7; textvariable $feet}.grid( :column => 2, :row => 1, :sticky => 'we' )
-Tk::Tile::Label.new(sub2) {textvariable $meters}.grid( :column => 2, :row => 2, :sticky => 'we');
-Tk::Tile::Button.new(sub2) {text 'Calculate'; command {calculate}}.grid( :column => 3, :row => 3, :sticky => 'w')
+f = Tk::Tile::Entry.new(proj_f2) {width 7; textvariable $feet}.grid( :column => 2, :row => 1, :sticky => 'we' )
+Tk::Tile::Label.new(proj_f2) {textvariable $meters}.grid( :column => 2, :row => 2, :sticky => 'we');
+Tk::Tile::Button.new(proj_f2) {text 'Calculate'; command {calculate}}.grid( :column => 3, :row => 3, :sticky => 'w')
 
-Tk::Tile::Label.new(sub2) {text 'feet'}.grid( :column => 3, :row => 1, :sticky => 'w')
-Tk::Tile::Label.new(sub2) {text 'is equivalent to'}.grid( :column => 1, :row => 2, :sticky => 'e')
-Tk::Tile::Label.new(sub2) {text 'meters'}.grid( :column => 3, :row => 2, :sticky => 'w')
+Tk::Tile::Label.new(proj_f2) {text 'feet'}.grid( :column => 3, :row => 1, :sticky => 'w')
+Tk::Tile::Label.new(proj_f2) {text 'is equivalent to'}.grid( :column => 1, :row => 2, :sticky => 'e')
+Tk::Tile::Label.new(proj_f2) {text 'meters'}.grid( :column => 3, :row => 2, :sticky => 'w')
 
-# sub1.grid :column => 0, :row => 0
-# sub2.grid :column => 1, :row => 0
+
+# Populate Boreholes Tab
+#============================================================================
+bh_f1 = Tk::Tile::Frame.new(bh_tab) {borderwidth 1; relief "solid"}.
+grid( :column => 0, :row => 0, :sticky => 'nsew' )
+
+bh_f2 = Tk::Tile::Frame.new(bh_tab) {borderwidth 1; relief "solid"}.
+grid( :column => 2, :row => 0, :sticky => 'nsew' )
+
+# Placeholder widgets for bh_f1
+Tk::Tile::Label.new(bh_f1) {text 'northwest'}.grid( :column => 0, :row => 0, :sticky => 'nsew')
+Tk::Tile::Label.new(bh_f1) {text 'center'}.grid( :column => 1, :row => 1, :sticky => 'nsew')
+Tk::Tile::Label.new(bh_f1) {text 'southeast'}.grid( :column => 2, :row => 2, :sticky => 'nsew')
+
+# Placeholder widgets for bh_f2
+Tk::Tile::Label.new(bh_f2) {text 'northwest'}.grid( :column => 0, :row => 0, :sticky => 'nsew')
+Tk::Tile::Label.new(bh_f2) {text 'center'}.grid( :column => 1, :row => 1, :sticky => 'nsew')
+Tk::Tile::Label.new(bh_f2) {text 'southeast'}.grid( :column => 2, :row => 2, :sticky => 'nsew')
+
+
+# Populate Geologists Tab
+#============================================================================
+geo_f1 = Tk::Tile::Frame.new(geo_tab) {borderwidth 1; relief "solid"}.
+grid( :column => 0, :row => 0, :sticky => 'nsew' )
+
+geo_f2 = Tk::Tile::Frame.new(geo_tab) {borderwidth 1; relief "solid"}.
+grid( :column => 2, :row => 0, :sticky => 'nsew' )
+
+# Placeholder widgets for geo_f1
+Tk::Tile::Label.new(geo_f1) {text 'northwest'}.grid( :column => 0, :row => 0, :sticky => 'nsew')
+Tk::Tile::Label.new(geo_f1) {text 'center'}.grid( :column => 1, :row => 1, :sticky => 'nsew')
+Tk::Tile::Label.new(geo_f1) {text 'southeast'}.grid( :column => 2, :row => 2, :sticky => 'nsew')
+
+# Placeholder widgets for geo_f2
+Tk::Tile::Label.new(geo_f2) {text 'northwest'}.grid( :column => 0, :row => 0, :sticky => 'nsew')
+Tk::Tile::Label.new(geo_f2) {text 'center'}.grid( :column => 1, :row => 1, :sticky => 'nsew')
+Tk::Tile::Label.new(geo_f2) {text 'southeast'}.grid( :column => 2, :row => 2, :sticky => 'nsew')
+
+# Populate Samples Tab
+#============================================================================
+sample_f1 = Tk::Tile::Frame.new(sample_tab) {borderwidth 1; relief "solid"}.
+grid( :column => 0, :row => 0, :sticky => 'nsew' )
+
+sample_f2 = Tk::Tile::Frame.new(sample_tab) {borderwidth 1; relief "solid"}.
+grid( :column => 2, :row => 0, :sticky => 'nsew' )
+
+# Placeholder widgets for sample_f1
+Tk::Tile::Label.new(sample_f1) {text 'northwest'}.grid( :column => 0, :row => 0, :sticky => 'nsew')
+Tk::Tile::Label.new(sample_f1) {text 'center'}.grid( :column => 1, :row => 1, :sticky => 'nsew')
+Tk::Tile::Label.new(sample_f1) {text 'southeast'}.grid( :column => 2, :row => 2, :sticky => 'nsew')
+
+# Placeholder widgets for sample_f2
+Tk::Tile::Label.new(sample_f2) {text 'northwest'}.grid( :column => 0, :row => 0, :sticky => 'nsew')
+Tk::Tile::Label.new(sample_f2) {text 'center'}.grid( :column => 1, :row => 1, :sticky => 'nsew')
+Tk::Tile::Label.new(sample_f2) {text 'southeast'}.grid( :column => 2, :row => 2, :sticky => 'nsew')
+
+# Populate Query Tab
+#============================================================================
+query_f1 = Tk::Tile::Frame.new(query_tab) {borderwidth 1; relief "solid"}.
+grid( :column => 0, :row => 0, :sticky => 'nsew' )
+
+query_f2 = Tk::Tile::Frame.new(query_tab) {borderwidth 1; relief "solid"}.
+grid( :column => 2, :row => 0, :sticky => 'nsew' )
+
+# Placeholder widgets for query_f1
+Tk::Tile::Label.new(query_f1) {text 'northwest'}.grid( :column => 0, :row => 0, :sticky => 'nsew')
+Tk::Tile::Label.new(query_f1) {text 'center'}.grid( :column => 1, :row => 1, :sticky => 'nsew')
+Tk::Tile::Label.new(query_f1) {text 'southeast'}.grid( :column => 2, :row => 2, :sticky => 'nsew')
+
+# Placeholder widgets for query_f2
+Tk::Tile::Label.new(query_f2) {text 'northwest'}.grid( :column => 0, :row => 0, :sticky => 'nsew')
+Tk::Tile::Label.new(query_f2) {text 'center'}.grid( :column => 1, :row => 1, :sticky => 'nsew')
+Tk::Tile::Label.new(query_f2) {text 'southeast'}.grid( :column => 2, :row => 2, :sticky => 'nsew')
+
 
 Tk.mainloop

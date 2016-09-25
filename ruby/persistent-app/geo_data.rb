@@ -6,6 +6,8 @@
 require 'sqlite3'
 require 'tk' # I hope to implement a GUI, time permitting
 
+current_db_name = nil
+
 # Helper Methods
 
 # Create a brand new empty database
@@ -119,7 +121,7 @@ end
 # TEST DRIVER CODE
 # create_db("test")
 db = open_db("test.db")
-
+puts db
 # db.execute("INSERT INTO projects (name, client) VALUES ('WLS Lee III', 'Duke')")
 # db.execute("INSERT INTO projects (name, client) VALUES ('JWPCP', 'LACSD')")
 # puts view_table(db, "projects")
@@ -170,6 +172,7 @@ tabs.add geo_tab, :text => 'Geologists'
 tabs.add sample_tab, :text => 'Samples'
 tabs.add query_tab, :text => 'Queries'
 
+#============================================================================
 # Populate Welcome Page Tab
 #============================================================================
 main_f1 = Tk::Tile::Frame.new(main_tab) {borderwidth 1; relief "solid"}.
@@ -182,6 +185,7 @@ Tk::Tile::Label.new(main_f1) {text '          '}.grid( :column => 0, :row => 0, 
 Tk::Tile::Label.new(main_f1) {text ' WELCOME! '}.grid( :column => 1, :row => 1, :sticky => 'nsew')
 Tk::Tile::Label.new(main_f1) {text '          '}.grid( :column => 2, :row => 2, :sticky => 'nsew')
 
+#============================================================================
 # Populate Projects Tab
 #============================================================================
 proj_f1 = Tk::Tile::Frame.new(project_tab) {borderwidth 1; relief "solid"}.
@@ -191,26 +195,43 @@ proj_f2 = Tk::Tile::Frame.new(project_tab) {borderwidth 1; relief "solid"}.
 grid( :column => 2, :row => 0, :sticky => 'nsew' )
 
 # Placeholder widgets in proj_f1
-$feet = TkVariable.new; $meters = TkVariable.new
-f = Tk::Tile::Entry.new(proj_f1) {width 7; textvariable $feet}.grid( :column => 2, :row => 1, :sticky => 'we' )
-Tk::Tile::Label.new(proj_f1) {textvariable $meters}.grid( :column => 2, :row => 2, :sticky => 'we');
-Tk::Tile::Button.new(proj_f1) {text 'Calculate'; command {calculate}}.grid( :column => 3, :row => 3, :sticky => 'w')
+tk_name = TkVariable.new
+tk_client = TkVariable.new
 
-Tk::Tile::Label.new(proj_f1) {text 'feet'}.grid( :column => 3, :row => 1, :sticky => 'w')
-Tk::Tile::Label.new(proj_f1) {text "is equivalent to\nthis amazing value"}.grid( :column => 1, :row => 2, :sticky => 'e')
-Tk::Tile::Label.new(proj_f1) {text 'meters'}.grid( :column => 3, :row => 2, :sticky => 'w')
+Tk::Tile::Label.new(proj_f1) {text 'Add New Project to Database'}.
+grid( :column => 0, :row => 0, :columnspan => 5, :sticky => 'ew')
+
+Tk::Tile::Separator.new(proj_f1) { orient 'horizontal' }.
+grid( :column => 0, :row => 1, :columnspan => 5, :sticky => 'ew')
+
+Tk::Tile::Label.new(proj_f1) {text 'Project Name: '}.
+grid( :column => 1, :row => 2, :sticky => 'ew')
+n = Tk::Tile::Entry.new(proj_f1) {width 50; textvariable tk_name}.
+grid( :column => 3, :row => 2, :sticky => 'we' )
+
+Tk::Tile::Label.new(proj_f1) {text 'Client Name: '}.
+grid( :column => 1, :row => 3, :sticky => 'ew')
+n = Tk::Tile::Entry.new(proj_f1) {width 50; textvariable tk_client}.
+grid( :column => 3, :row => 3, :sticky => 'we' )
+
+Tk::Tile::Separator.new(proj_f1) { orient 'horizontal' }.
+grid( :column => 0, :row => 4, :columnspan => 5, :sticky => 'ew')
+
+Tk::Tile::Button.new(proj_f1) {text 'Add Project'; command {add_project(db, tk_name.to_s, tk_client.to_s)}}.
+grid( :column => 3, :row => 5, :sticky => 'ew')
 
 # Placeholder widgets in proj_f2
 $feet = TkVariable.new; $meters = TkVariable.new
 f = Tk::Tile::Entry.new(proj_f2) {width 7; textvariable $feet}.grid( :column => 2, :row => 1, :sticky => 'we' )
 Tk::Tile::Label.new(proj_f2) {textvariable $meters}.grid( :column => 2, :row => 2, :sticky => 'we');
-Tk::Tile::Button.new(proj_f2) {text 'Calculate'; command {calculate}}.grid( :column => 3, :row => 3, :sticky => 'w')
+# Tk::Tile::Button.new(proj_f2) {text 'Calculate'; command {calculate}}.grid( :column => 3, :row => 3, :sticky => 'w')
 
 Tk::Tile::Label.new(proj_f2) {text 'feet'}.grid( :column => 3, :row => 1, :sticky => 'w')
 Tk::Tile::Label.new(proj_f2) {text 'is equivalent to'}.grid( :column => 1, :row => 2, :sticky => 'e')
 Tk::Tile::Label.new(proj_f2) {text 'meters'}.grid( :column => 3, :row => 2, :sticky => 'w')
 
 
+#============================================================================
 # Populate Boreholes Tab
 #============================================================================
 bh_f1 = Tk::Tile::Frame.new(bh_tab) {borderwidth 1; relief "solid"}.
@@ -230,6 +251,7 @@ Tk::Tile::Label.new(bh_f2) {text 'center'}.grid( :column => 1, :row => 1, :stick
 Tk::Tile::Label.new(bh_f2) {text 'southeast'}.grid( :column => 2, :row => 2, :sticky => 'nsew')
 
 
+#============================================================================
 # Populate Geologists Tab
 #============================================================================
 geo_f1 = Tk::Tile::Frame.new(geo_tab) {borderwidth 1; relief "solid"}.
@@ -248,6 +270,7 @@ Tk::Tile::Label.new(geo_f2) {text 'northwest'}.grid( :column => 0, :row => 0, :s
 Tk::Tile::Label.new(geo_f2) {text 'center'}.grid( :column => 1, :row => 1, :sticky => 'nsew')
 Tk::Tile::Label.new(geo_f2) {text 'southeast'}.grid( :column => 2, :row => 2, :sticky => 'nsew')
 
+#============================================================================
 # Populate Samples Tab
 #============================================================================
 sample_f1 = Tk::Tile::Frame.new(sample_tab) {borderwidth 1; relief "solid"}.
@@ -266,6 +289,7 @@ Tk::Tile::Label.new(sample_f2) {text 'northwest'}.grid( :column => 0, :row => 0,
 Tk::Tile::Label.new(sample_f2) {text 'center'}.grid( :column => 1, :row => 1, :sticky => 'nsew')
 Tk::Tile::Label.new(sample_f2) {text 'southeast'}.grid( :column => 2, :row => 2, :sticky => 'nsew')
 
+#============================================================================
 # Populate Query Tab
 #============================================================================
 query_f1 = Tk::Tile::Frame.new(query_tab) {borderwidth 1; relief "solid"}.

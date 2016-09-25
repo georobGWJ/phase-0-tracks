@@ -137,6 +137,8 @@ db = open_db("test.db")
 #================
 #    GUI CODE
 #================
+# Many thanks to http://www.tkdocs.com/tutorial/grid.html for learning
+# tk and Ruby
 
 # Create master window
 root = TkRoot.new do 
@@ -146,17 +148,17 @@ end
 
 # Create Parent container for tabs
 tabs = Tk::Tile::Notebook.new(root) do
-  height 120
+  #height 600
   place('height'=> 620, 'width'=> 1180, 'x'=> 10, 'y'=> 10)
 end
 
 # Create Tab Pages
-main_tab = Tk::Tile::Frame.new(tabs);
-project_tab = Tk::Tile::Frame.new(tabs);
-bh_tab = Tk::Tile::Frame.new(tabs);
-geo_tab = Tk::Tile::Frame.new(tabs);
-sample_tab = Tk::Tile::Frame.new(tabs);
-query_tab = Tk::Tile::Frame.new(tabs);
+main_tab = Tk::Tile::Frame.new(tabs)
+project_tab = Tk::Tile::Frame.new(tabs)
+bh_tab = Tk::Tile::Frame.new(tabs)
+geo_tab = Tk::Tile::Frame.new(tabs)
+sample_tab = Tk::Tile::Frame.new(tabs)
+query_tab = Tk::Tile::Frame.new(tabs)
 
 # Populate Tabs container
 tabs.add main_tab, :text => 'Welcome Page'
@@ -166,5 +168,37 @@ tabs.add geo_tab, :text => 'Geologists'
 tabs.add sample_tab, :text => 'Samples'
 tabs.add query_tab, :text => 'Queries'
 
+# Create Sub-Frames
+proj_f1 = Tk::Tile::Frame.new(project_tab) {borderwidth 1; relief "solid"}.
+grid( :column => 0, :row => 0, :sticky => 'nsew' )
+
+proj_f2 = Tk::Tile::Frame.new(project_tab) {borderwidth 1; relief "solid"}.
+grid( :column => 1, :row => 0, :sticky => 'nsew' )
+
+sub1 = Tk::Tile::Frame.new(proj_f1) {padding "3 3 12 12"}.grid( :sticky => 'nsew')
+
+$feet = TkVariable.new; $meters = TkVariable.new
+f = Tk::Tile::Entry.new(sub1) {width 7; textvariable $feet}.grid( :column => 2, :row => 1, :sticky => 'we' )
+Tk::Tile::Label.new(sub1) {textvariable $meters}.grid( :column => 2, :row => 2, :sticky => 'we');
+Tk::Tile::Button.new(sub1) {text 'Calculate'; command {calculate}}.grid( :column => 3, :row => 3, :sticky => 'w')
+
+Tk::Tile::Label.new(sub1) {text 'feet'}.grid( :column => 3, :row => 1, :sticky => 'w')
+Tk::Tile::Label.new(sub1) {text "is equivalent to\nthis amazing value"}.grid( :column => 1, :row => 2, :sticky => 'e')
+Tk::Tile::Label.new(sub1) {text 'meters'}.grid( :column => 3, :row => 2, :sticky => 'w')
+
+
+sub2 = Tk::Tile::Frame.new(proj_f2) {padding "3 3 12 12"}.grid( :sticky => 'nsew')
+
+$feet = TkVariable.new; $meters = TkVariable.new
+f = Tk::Tile::Entry.new(sub2) {width 7; textvariable $feet}.grid( :column => 2, :row => 1, :sticky => 'we' )
+Tk::Tile::Label.new(sub2) {textvariable $meters}.grid( :column => 2, :row => 2, :sticky => 'we');
+Tk::Tile::Button.new(sub2) {text 'Calculate'; command {calculate}}.grid( :column => 3, :row => 3, :sticky => 'w')
+
+Tk::Tile::Label.new(sub2) {text 'feet'}.grid( :column => 3, :row => 1, :sticky => 'w')
+Tk::Tile::Label.new(sub2) {text 'is equivalent to'}.grid( :column => 1, :row => 2, :sticky => 'e')
+Tk::Tile::Label.new(sub2) {text 'meters'}.grid( :column => 3, :row => 2, :sticky => 'w')
+
+# sub1.grid :column => 0, :row => 0
+# sub2.grid :column => 1, :row => 0
 
 Tk.mainloop

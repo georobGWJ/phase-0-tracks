@@ -124,6 +124,29 @@ def pp_geo(db)
   pp_string
 end
 
+def pp_sample(db)
+  data = db.execute("SELECT * FROM samples")
+  pp_string = ''
+  data.each do |sample|
+    # proj_id = bh['project_id']
+    # project = db.execute("SELECT * FROM projects WHERE id = ?", [proj_id])
+    # pp_string += "Project:   #{project['name']}\t"
+    pp_string += "Boring: #{sample['bh_id']}   "
+    pp_string += "Geo: #{sample['logger_id']}   "
+    pp_string += "Depth: #{sample['depth']}   "
+    pp_string += "USCS: #{sample['USCS']}   "
+    pp_string += "#{sample['color']}   "
+    pp_string += "#{sample['wetness']}   "
+    pp_string += "Gravel %: #{sample['percent_gravel']}   "
+    pp_string += "Sand %: #{sample['percent_sand']}   "
+    pp_string += "Fines %: #{sample['percent_fines']}   "
+    pp_string += "Plasticity: #{sample['plasticity']}   "
+    pp_string += "Toughness: #{sample['toughness']}   "
+    pp_string += "Other: #{sample['other']}\n"
+  end
+  pp_string
+end
+
 # Add Project to database
 def add_project(db, name, client = nil)
   db.execute("INSERT INTO projects (name, client) VALUES (?, ?)", [name, client])
@@ -179,7 +202,7 @@ end
 # Create Parent container for tabs
 tabs = Tk::Tile::Notebook.new(root) do
   #height 600
-  place('height'=> 620, 'width'=> 1180, 'x'=> 10, 'y'=> 10)
+  place('height'=> 620, 'width'=> 1200, 'x'=> 5, 'y'=> 5)
 end
 
 # Create Tab Pages
@@ -219,7 +242,7 @@ proj_f1 = Tk::Tile::Frame.new(project_tab) {borderwidth 1; relief "solid"}.
 grid( :column => 0, :row => 0, :sticky => 'nsew' )
 
 proj_f2 = Tk::Tile::Frame.new(project_tab) {borderwidth 1; relief "solid"}.
-grid( :column => 0, :row => 1, :sticky => 'nsew' )
+grid( :column => 1, :row => 0, :sticky => 'nsew' )
 
 # Widgets to add new project to database
 tk_name = TkVariable.new
@@ -339,10 +362,10 @@ geo_f2 = Tk::Tile::Frame.new(geo_tab) { }.
 grid( :column => 1, :row => 0, :sticky => 'nsew' )
 
 geo_f2_top = Tk::Tile::Frame.new(geo_f2) {borderwidth 1; relief "solid"}.
-grid( :column => 0, :row => 0, :sticky => 'n' )
+grid( :column => 0, :row => 0, :sticky => 'new' )
 
 geo_f2_bottom = Tk::Tile::Frame.new(geo_f2) {borderwidth 1; relief "solid"}.
-grid( :column => 0, :row => 1, :sticky => 's' )
+grid( :column => 0, :row => 1, :sticky => 'sew' )
 
 # Widgets to add new Geologist to database
 tk_name = TkVariable.new
@@ -369,7 +392,7 @@ grid( :column => 0, :row => 4, :columnspan => 5, :sticky => 'ew')
 
 Tk::Tile::Button.new(geo_f1) {text 'Add Geologist'; 
 command {add_geo(db, tk_name.to_s, tk_company.to_s)}}.
-grid( :column => 3, :row => 5, :sticky => 's')
+grid( :column => 3, :row => 5, :sticky => 'sew')
 
 # Widgets to display Geologist table data
 project_data = view_table(db, "geologists")
@@ -379,7 +402,7 @@ grid( :column => 0, :row => 0)
 
 Tk::Tile::Button.new(geo_f2_bottom) {text 'Refresh'; 
 command {data['text'] = pp_geo(db)}}.
-grid( :column => 0, :row => 3, :sticky => 'ew')
+grid( :column => 0, :row => 3, :sticky => 'sew')
 
 
 #============================================================================
@@ -457,12 +480,12 @@ wet_combo.values = ["Wet", "Damp", "Dry"]
 
 Tk::Tile::Label.new(sample_f1) {text 'Percent Gravel: '}.
 grid( :column => 4, :row => 4, :sticky => 'ew')
-Tk::Tile::Entry.new(sample_f1) {width 20; textvariable tk_grav}.
+TkSpinbox.new(sample_f1) {from 0.0; to 100.0; textvariable tk_grav}.
 grid( :column => 5, :row => 4, :sticky => 'we' )
 
 Tk::Tile::Label.new(sample_f1) {text 'Percent Sand: '}.
 grid( :column => 4, :row => 5, :sticky => 'ew')
-Tk::Tile::Entry.new(sample_f1) {width 20; textvariable tk_sand}.
+TkSpinbox.new(sample_f1) {from 0.0; to 100.0; textvariable tk_sand}.
 grid( :column => 5, :row => 5, :sticky => 'we' )
 
 Tk::Tile::Separator.new(sample_f1) { orient 'vertical' }.
@@ -470,7 +493,7 @@ grid( :column => 6, :row => 1, :rowspan => 7, :sticky => 'ns')
 
 Tk::Tile::Label.new(sample_f1) {text 'Percent Fines: '}.
 grid( :column => 7, :row => 2, :sticky => 'ew')
-Tk::Tile::Entry.new(sample_f1) {width 20; textvariable tk_fine}.
+TkSpinbox.new(sample_f1) {from 0.0; to 100.0; textvariable tk_fine}.
 grid( :column => 8, :row => 2, :sticky => 'we' )
 
 Tk::Tile::Label.new(sample_f1) {text 'Plasticity: '}.
@@ -503,12 +526,18 @@ grid( :column => 5, :row => 8, :sticky => 'ew')
 # Widgets to display Borehole table data
 project_data = view_table(db, "boreholes")
 
-# data = Tk::Tile::Label.new(sample_f2) { text pp_borehole(db) }.
-# grid( :column => 0, :row => 0)
+data = Tk::Tile::Label.new(sample_f2) { text pp_sample(db) }.
+grid( :column => 0, :row => 0)
 
-# Tk::Tile::Button.new(sample_f2) {text 'Refresh'; 
-# command {data['text'] = pp_borehole(db)}}.
-# grid( :column => 0, :row => 3, :sticky => 'ew')
+Tk::Tile::Button.new(sample_f2) {text 'Refresh'; 
+command {data['text'] = pp_sample(db)}}.
+grid( :column => 0, :row => 3, :sticky => 'ew')
+
+# Tk::Tile::Scrollbar.new(sample_f2) {orient "horizontal"; 
+#         command proc{|*args| l.xview(*args);} }
+#l['xscrollcommand'] = proc{|*args| s.set(*args);}
+
+#l.xscrollbar = data
 
 #============================================================================
 # Populate Query Tab

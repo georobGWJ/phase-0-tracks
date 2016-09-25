@@ -114,6 +114,15 @@ def pp_borehole(db)
   pp_string
 end
 
+def pp_geo(db)
+  data = db.execute("SELECT * FROM geologists")
+  pp_string = ''
+  data.each do |geo|
+    pp_string += "Geologist:   #{geo['name']}\t"
+    pp_string += "Company:   #{geo['company']}\n"
+  end
+  pp_string
+end
 
 # Add Project to database
 def add_project(db, name, client = nil)
@@ -264,7 +273,7 @@ grid( :column => 0, :row => 0, :sticky => 'n' )
 bh_f2_bottom = Tk::Tile::Frame.new(bh_f2) {borderwidth 1; relief "solid"}.
 grid( :column => 0, :row => 1, :sticky => 's' )
 
-# Widgets to add new project to database
+# Widgets to add new Borehole to database
 tk_desig = TkVariable.new
 tk_north = TkVariable.new
 tk_east = TkVariable.new
@@ -310,7 +319,7 @@ command {add_borehole(db, tk_desig.to_s, tk_north.to_s, tk_east.to_s,
 tk_elev.to_s, tk_proj.to_s)}}.
 grid( :column => 3, :row => 8, :sticky => 'ew')
 
-# Widgets to display Project table data
+# Widgets to display Borehole table data
 project_data = view_table(db, "boreholes")
 
 data = Tk::Tile::Label.new(bh_f2_top) { text pp_borehole(db) }.
@@ -326,18 +335,52 @@ grid( :column => 0, :row => 3, :sticky => 'ew')
 geo_f1 = Tk::Tile::Frame.new(geo_tab) {borderwidth 1; relief "solid"}.
 grid( :column => 0, :row => 0, :sticky => 'nsew' )
 
-geo_f2 = Tk::Tile::Frame.new(geo_tab) {borderwidth 1; relief "solid"}.
-grid( :column => 2, :row => 0, :sticky => 'nsew' )
+geo_f2 = Tk::Tile::Frame.new(geo_tab) { }.
+grid( :column => 1, :row => 0, :sticky => 'nsew' )
 
-# Placeholder widgets for geo_f1
-Tk::Tile::Label.new(geo_f1) {text 'northwest'}.grid( :column => 0, :row => 0, :sticky => 'nsew')
-Tk::Tile::Label.new(geo_f1) {text 'center'}.grid( :column => 1, :row => 1, :sticky => 'nsew')
-Tk::Tile::Label.new(geo_f1) {text 'southeast'}.grid( :column => 2, :row => 2, :sticky => 'nsew')
+geo_f2_top = Tk::Tile::Frame.new(geo_f2) {borderwidth 1; relief "solid"}.
+grid( :column => 0, :row => 0, :sticky => 'n' )
 
-# Placeholder widgets for geo_f2
-Tk::Tile::Label.new(geo_f2) {text 'northwest'}.grid( :column => 0, :row => 0, :sticky => 'nsew')
-Tk::Tile::Label.new(geo_f2) {text 'center'}.grid( :column => 1, :row => 1, :sticky => 'nsew')
-Tk::Tile::Label.new(geo_f2) {text 'southeast'}.grid( :column => 2, :row => 2, :sticky => 'nsew')
+geo_f2_bottom = Tk::Tile::Frame.new(geo_f2) {borderwidth 1; relief "solid"}.
+grid( :column => 0, :row => 1, :sticky => 's' )
+
+# Widgets to add new Geologist to database
+tk_name = TkVariable.new
+tk_company = TkVariable.new
+
+Tk::Tile::Label.new(geo_f1) {text 'Add New Geologist to Database'}.
+grid( :column => 0, :row => 0, :columnspan => 5, :sticky => 'ew')
+
+Tk::Tile::Separator.new(geo_f1) { orient 'horizontal' }.
+grid( :column => 0, :row => 1, :columnspan => 5, :sticky => 'ew')
+
+Tk::Tile::Label.new(geo_f1) {text 'Geo Name: '}.
+grid( :column => 1, :row => 2, :sticky => 'ew')
+Tk::Tile::Entry.new(geo_f1) {width 30; textvariable tk_name}.
+grid( :column => 3, :row => 2, :sticky => 'we' )
+
+Tk::Tile::Label.new(geo_f1) {text 'Company: '}.
+grid( :column => 1, :row => 3, :sticky => 'ew')
+Tk::Tile::Entry.new(geo_f1) {width 30; textvariable tk_company}.
+grid( :column => 3, :row => 3, :sticky => 'we' )
+
+Tk::Tile::Separator.new(geo_f1) { orient 'horizontal' }.
+grid( :column => 0, :row => 4, :columnspan => 5, :sticky => 'ew')
+
+Tk::Tile::Button.new(geo_f1) {text 'Add Geologist'; 
+command {add_geo(db, tk_name.to_s, tk_company.to_s)}}.
+grid( :column => 3, :row => 5, :sticky => 's')
+
+# Widgets to display Geologist table data
+project_data = view_table(db, "geologists")
+
+data = Tk::Tile::Label.new(geo_f2_top) { text pp_geo(db) }.
+grid( :column => 0, :row => 0)
+
+Tk::Tile::Button.new(geo_f2_bottom) {text 'Refresh'; 
+command {data['text'] = pp_geo(db)}}.
+grid( :column => 0, :row => 3, :sticky => 'ew')
+
 
 #============================================================================
 # Populate Samples Tab
@@ -346,17 +389,126 @@ sample_f1 = Tk::Tile::Frame.new(sample_tab) {borderwidth 1; relief "solid"}.
 grid( :column => 0, :row => 0, :sticky => 'nsew' )
 
 sample_f2 = Tk::Tile::Frame.new(sample_tab) {borderwidth 1; relief "solid"}.
-grid( :column => 2, :row => 0, :sticky => 'nsew' )
+grid( :column => 0, :row => 1, :sticky => 'nsew' )
 
-# Placeholder widgets for sample_f1
-Tk::Tile::Label.new(sample_f1) {text 'northwest'}.grid( :column => 0, :row => 0, :sticky => 'nsew')
-Tk::Tile::Label.new(sample_f1) {text 'center'}.grid( :column => 1, :row => 1, :sticky => 'nsew')
-Tk::Tile::Label.new(sample_f1) {text 'southeast'}.grid( :column => 2, :row => 2, :sticky => 'nsew')
+# Widgets to add new Borehole to database
+tk_bh = TkVariable.new
+tk_geo = TkVariable.new
+tk_depth = TkVariable.new
+tk_uscs = TkVariable.new
+tk_color = TkVariable.new
+tk_wet = TkVariable.new
+tk_grav = TkVariable.new
+tk_sand = TkVariable.new
+tk_fine = TkVariable.new
+tk_plast = TkVariable.new
+tk_tough = TkVariable.new
+tk_other = TkVariable.new
 
-# Placeholder widgets for sample_f2
-Tk::Tile::Label.new(sample_f2) {text 'northwest'}.grid( :column => 0, :row => 0, :sticky => 'nsew')
-Tk::Tile::Label.new(sample_f2) {text 'center'}.grid( :column => 1, :row => 1, :sticky => 'nsew')
-Tk::Tile::Label.new(sample_f2) {text 'southeast'}.grid( :column => 2, :row => 2, :sticky => 'nsew')
+
+Tk::Tile::Label.new(sample_f1) {text 'Add New Sample to Database'}.
+grid( :column => 0, :row => 0, :columnspan => 10, :sticky => 'ew')
+
+Tk::Tile::Separator.new(sample_f1) { orient 'horizontal' }.
+grid( :column => 0, :row => 1, :columnspan => 10, :sticky => 'ew')
+
+Tk::Tile::Label.new(sample_f1) {text 'Borehole: '}.
+grid( :column => 1, :row => 2, :sticky => 'ew')
+Tk::Tile::Entry.new(sample_f1) {width 20; textvariable tk_bh}.
+grid( :column => 2, :row => 2, :sticky => 'we' )
+
+Tk::Tile::Label.new(sample_f1) {text 'Rig Geologist: '}.
+grid( :column => 1, :row => 3, :sticky => 'ew')
+Tk::Tile::Entry.new(sample_f1) {width 20; textvariable tk_geo}.
+grid( :column => 2, :row => 3, :sticky => 'we' )
+
+Tk::Tile::Label.new(sample_f1) {text 'Depth: '}.
+grid( :column => 1, :row => 4, :sticky => 'ew')
+Tk::Tile::Entry.new(sample_f1) {width 20; textvariable tk_depth}.
+grid( :column => 2, :row => 4, :sticky => 'we' )
+
+Tk::Tile::Label.new(sample_f1) {text 'USCS: '}.
+grid( :column => 1, :row => 5, :sticky => 'ew')
+p_combo =Tk::Tile::Combobox.new(sample_f1) { textvariable tk_uscs }.
+grid( :column => 2, :row => 5, :sticky => 'we' )
+p_combo.values = ["Well-Graded Gravel (GW)",
+                  "Poorly-Graded Gravel (GP)",
+                  "Silty Gravel (GM)",
+                  "Well-Graded Sand (SW)",
+                  "Poorly-Graded Sand (SP)",
+                  "Silty Sand (SM)",
+                  "Clayey Sand (SC)",
+                  "Silt (ML)",
+                  "Clay (CL)"]
+
+Tk::Tile::Separator.new(sample_f1) { orient 'vertical' }.
+grid( :column => 3, :row => 1, :rowspan => 7, :sticky => 'ns')
+
+Tk::Tile::Label.new(sample_f1) {text 'Color: '}.
+grid( :column => 4, :row => 2, :sticky => 'ew')
+Tk::Tile::Entry.new(sample_f1) {width 20; textvariable tk_color}.
+grid( :column => 5, :row => 2, :sticky => 'we' )
+
+Tk::Tile::Label.new(sample_f1) {text 'Wetness: '}.
+grid( :column => 4, :row => 3, :sticky => 'ew')
+wet_combo =Tk::Tile::Combobox.new(sample_f1) { textvariable tk_wet }.
+grid( :column => 5, :row => 3, :sticky => 'we' )
+wet_combo.values = ["Wet", "Damp", "Dry"]
+
+Tk::Tile::Label.new(sample_f1) {text 'Percent Gravel: '}.
+grid( :column => 4, :row => 4, :sticky => 'ew')
+Tk::Tile::Entry.new(sample_f1) {width 20; textvariable tk_grav}.
+grid( :column => 5, :row => 4, :sticky => 'we' )
+
+Tk::Tile::Label.new(sample_f1) {text 'Percent Sand: '}.
+grid( :column => 4, :row => 5, :sticky => 'ew')
+Tk::Tile::Entry.new(sample_f1) {width 20; textvariable tk_sand}.
+grid( :column => 5, :row => 5, :sticky => 'we' )
+
+Tk::Tile::Separator.new(sample_f1) { orient 'vertical' }.
+grid( :column => 6, :row => 1, :rowspan => 7, :sticky => 'ns')
+
+Tk::Tile::Label.new(sample_f1) {text 'Percent Fines: '}.
+grid( :column => 7, :row => 2, :sticky => 'ew')
+Tk::Tile::Entry.new(sample_f1) {width 20; textvariable tk_fine}.
+grid( :column => 8, :row => 2, :sticky => 'we' )
+
+Tk::Tile::Label.new(sample_f1) {text 'Plasticity: '}.
+grid( :column => 7, :row => 3, :sticky => 'ew')
+plast_combo =Tk::Tile::Combobox.new(sample_f1) { textvariable tk_plast }.
+grid( :column => 8, :row => 3, :sticky => 'we' )
+plast_combo.values = ["High", "Medium", "Low", "None"]
+
+
+Tk::Tile::Label.new(sample_f1) {text 'Toughness: '}.
+grid( :column => 7, :row => 4, :sticky => 'ew')
+tough_combo =Tk::Tile::Combobox.new(sample_f1) { textvariable tk_tough }.
+grid( :column => 8, :row => 4, :sticky => 'we' )
+tough_combo.values = ["High", "Medium", "Low", "None"]
+
+Tk::Tile::Label.new(sample_f1) {text 'Other Characteristics: '}.
+grid( :column => 7, :row => 5, :sticky => 'ew')
+Tk::Tile::Entry.new(sample_f1) {width 20; textvariable tk_other}.
+grid( :column => 8, :row => 5, :sticky => 'we' )
+
+Tk::Tile::Separator.new(sample_f1) { orient 'horizontal' }.
+grid( :column => 0, :row => 7, :columnspan => 10, :sticky => 'ew')
+
+Tk::Tile::Button.new(sample_f1) {text 'Add Sample'; 
+command {add_sample(db, tk_bh.to_s, tk_geo.to_s, tk_depth.to_s, tk_uscs.to_s, 
+tk_color.to_s, tk_wet.to_s, tk_grav.to_s, tk_sand.to_s, tk_fine.to_s, 
+tk_plast.to_s, tk_tough.to_s, tk_other.to_s)}}.
+grid( :column => 5, :row => 8, :sticky => 'ew')
+
+# Widgets to display Borehole table data
+project_data = view_table(db, "boreholes")
+
+# data = Tk::Tile::Label.new(sample_f2) { text pp_borehole(db) }.
+# grid( :column => 0, :row => 0)
+
+# Tk::Tile::Button.new(sample_f2) {text 'Refresh'; 
+# command {data['text'] = pp_borehole(db)}}.
+# grid( :column => 0, :row => 3, :sticky => 'ew')
 
 #============================================================================
 # Populate Query Tab

@@ -93,7 +93,23 @@ def pp_project(db)
   pp_string = ''
   data.each do |project|
     pp_string += "Project:   #{project['name']}\t"
-    pp_string += "Client:   #{project['client']}\n\n"
+    pp_string += "Client:   #{project['client']}\n"
+  end
+  pp_string
+end
+
+# Pretty Print Boreholes Table Data
+def pp_borehole(db)
+  data = db.execute("SELECT * FROM boreholes")
+  pp_string = ''
+  data.each do |bh|
+    # proj_id = bh['project_id']
+    # project = db.execute("SELECT * FROM projects WHERE id = ?", [proj_id])
+    # pp_string += "Project:   #{project['name']}\t"
+    pp_string += "Borehole:   #{bh['designation']}\t"
+    pp_string += "Northing:   #{bh['northing']}\t"
+    pp_string += "Easting:   #{bh['easting']}\t"
+    pp_string += "Elevation:   #{bh['elevation']}\n"
   end
   pp_string
 end
@@ -208,12 +224,12 @@ grid( :column => 0, :row => 1, :columnspan => 5, :sticky => 'ew')
 
 Tk::Tile::Label.new(proj_f1) {text 'Project Name: '}.
 grid( :column => 1, :row => 2, :sticky => 'ew')
-n = Tk::Tile::Entry.new(proj_f1) {width 50; textvariable tk_name}.
+Tk::Tile::Entry.new(proj_f1) {width 50; textvariable tk_name}.
 grid( :column => 3, :row => 2, :sticky => 'we' )
 
 Tk::Tile::Label.new(proj_f1) {text 'Client Name: '}.
 grid( :column => 1, :row => 3, :sticky => 'ew')
-n = Tk::Tile::Entry.new(proj_f1) {width 50; textvariable tk_client}.
+Tk::Tile::Entry.new(proj_f1) {width 50; textvariable tk_client}.
 grid( :column => 3, :row => 3, :sticky => 'we' )
 
 Tk::Tile::Separator.new(proj_f1) { orient 'horizontal' }.
@@ -226,9 +242,9 @@ grid( :column => 3, :row => 5, :sticky => 'ew')
 # Widgets to display Project table data
 project_data = view_table(db, "projects")
 
-data = Tk::Tile::Label.new(proj_f2) { text words }.grid( :column => 0, :row => 0)
+data = Tk::Tile::Label.new(proj_f2) { text pp_project(db) }.grid( :column => 0, :row => 0)
 
-Tk::Tile::Button.new(proj_f2) {text 'Update'; command {data['text'] = pp_project(db)}}.
+Tk::Tile::Button.new(proj_f2) {text 'Refresh'; command {data['text'] = pp_project(db)}}.
 grid( :column => 3, :row => 3, :sticky => 'ew')
 
 
@@ -239,19 +255,70 @@ grid( :column => 3, :row => 3, :sticky => 'ew')
 bh_f1 = Tk::Tile::Frame.new(bh_tab) {borderwidth 1; relief "solid"}.
 grid( :column => 0, :row => 0, :sticky => 'nsew' )
 
-bh_f2 = Tk::Tile::Frame.new(bh_tab) {borderwidth 1; relief "solid"}.
+bh_f2 = Tk::Tile::Frame.new(bh_tab) { }.
 grid( :column => 2, :row => 0, :sticky => 'nsew' )
 
-# Placeholder widgets for bh_f1
-Tk::Tile::Label.new(bh_f1) {text 'northwest'}.grid( :column => 0, :row => 0, :sticky => 'nsew')
-Tk::Tile::Label.new(bh_f1) {text 'center'}.grid( :column => 1, :row => 1, :sticky => 'nsew')
-Tk::Tile::Label.new(bh_f1) {text 'southeast'}.grid( :column => 2, :row => 2, :sticky => 'nsew')
+bh_f2_top = Tk::Tile::Frame.new(bh_f2) {borderwidth 1; relief "solid"}.
+grid( :column => 0, :row => 0, :sticky => 'n' )
 
-# Placeholder widgets for bh_f2
-Tk::Tile::Label.new(bh_f2) {text 'northwest'}.grid( :column => 0, :row => 0, :sticky => 'nsew')
-Tk::Tile::Label.new(bh_f2) {text 'center'}.grid( :column => 1, :row => 1, :sticky => 'nsew')
-Tk::Tile::Label.new(bh_f2) {text 'southeast'}.grid( :column => 2, :row => 2, :sticky => 'nsew')
+bh_f2_bottom = Tk::Tile::Frame.new(bh_f2) {borderwidth 1; relief "solid"}.
+grid( :column => 0, :row => 1, :sticky => 's' )
 
+# Widgets to add new project to database
+tk_desig = TkVariable.new
+tk_north = TkVariable.new
+tk_east = TkVariable.new
+tk_elev = TkVariable.new
+tk_proj = TkVariable.new
+
+Tk::Tile::Label.new(bh_f1) {text 'Add New Borehole to Database'}.
+grid( :column => 0, :row => 0, :columnspan => 5, :sticky => 'ew')
+
+Tk::Tile::Separator.new(bh_f1) { orient 'horizontal' }.
+grid( :column => 0, :row => 1, :columnspan => 5, :sticky => 'ew')
+
+Tk::Tile::Label.new(bh_f1) {text 'Designation: '}.
+grid( :column => 1, :row => 2, :sticky => 'ew')
+Tk::Tile::Entry.new(bh_f1) {width 30; textvariable tk_desig}.
+grid( :column => 3, :row => 2, :sticky => 'we' )
+
+Tk::Tile::Label.new(bh_f1) {text 'Northing: '}.
+grid( :column => 1, :row => 3, :sticky => 'ew')
+Tk::Tile::Entry.new(bh_f1) {width 30; textvariable tk_north}.
+grid( :column => 3, :row => 3, :sticky => 'we' )
+
+Tk::Tile::Label.new(bh_f1) {text 'Easting: '}.
+grid( :column => 1, :row => 4, :sticky => 'ew')
+Tk::Tile::Entry.new(bh_f1) {width 30; textvariable tk_east}.
+grid( :column => 3, :row => 4, :sticky => 'we' )
+
+Tk::Tile::Label.new(bh_f1) {text 'Elevation: '}.
+grid( :column => 1, :row => 5, :sticky => 'ew')
+Tk::Tile::Entry.new(bh_f1) {width 20; textvariable tk_elev}.
+grid( :column => 3, :row => 5, :sticky => 'we' )
+
+Tk::Tile::Label.new(bh_f1) {text 'Project ID: '}.
+grid( :column => 1, :row => 6, :sticky => 'ew')
+Tk::Tile::Entry.new(bh_f1) {width 30; textvariable tk_proj}.
+grid( :column => 3, :row => 6, :sticky => 'we' )
+
+Tk::Tile::Separator.new(bh_f1) { orient 'horizontal' }.
+grid( :column => 0, :row => 7, :columnspan => 5, :sticky => 'ew')
+
+Tk::Tile::Button.new(bh_f1) {text 'Add Borehole'; 
+command {add_borehole(db, tk_desig.to_s, tk_north.to_s, tk_east.to_s, 
+tk_elev.to_s, tk_proj.to_s)}}.
+grid( :column => 3, :row => 8, :sticky => 'ew')
+
+# Widgets to display Project table data
+project_data = view_table(db, "boreholes")
+
+data = Tk::Tile::Label.new(bh_f2_top) { text pp_borehole(db) }.
+grid( :column => 0, :row => 0)
+
+Tk::Tile::Button.new(bh_f2_bottom) {text 'Refresh'; 
+command {data['text'] = pp_borehole(db)}}.
+grid( :column => 0, :row => 3, :sticky => 'ew')
 
 #============================================================================
 # Populate Geologists Tab

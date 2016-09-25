@@ -92,25 +92,18 @@ end
 
 # Add Borehole to database
 def add_borehole(db, desig, north, east, elev, proj_id)
-
-  # add_borehole_data = <<-SQL
-  # INSERT INTO boreholes (designation, northing, easting, elevation, project_id)
-  #   VALUES (#{desig}, north, east, elev, proj_id)
-  # SQL
-
-  # db.execute(add_borehole_data)
   db.execute("INSERT INTO boreholes 
     (designation, northing, easting, elevation, project_id)
     VALUES (?, ?, ?, ?, ?)", [desig, north, east, elev, proj_id])
 end
 
-# Add geologist to database
+# Add Geologist to database
 def add_geo(db, name, company = nil )
   db.execute("INSERT INTO geologists (name, company) 
               VALUES (?, ?)", [name, company])
 end
 
-# Add sample to database
+# Add Sample to database
 def add_sample(db, bh, geo, depth, uscs, color, wetness, pgravel, psand, pfines,
                toughness, plasticity, other)
   db.execute("INSERT INTO samples 
@@ -119,7 +112,6 @@ def add_sample(db, bh, geo, depth, uscs, color, wetness, pgravel, psand, pfines,
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
     [bh, geo, depth, uscs, color, wetness, pgravel, psand, pfines, toughness, 
      plasticity, other])
-
 
 end
 
@@ -141,3 +133,38 @@ db = open_db("test.db")
 # add_sample(db, 1, 1, 15, "SP", "olive", "damp", 0, 97, 3,
 #                nil, nil, "subrounded to rounded fine sand")
 # puts view_table(db, "samples")
+
+#================
+#    GUI CODE
+#================
+
+# Create master window
+root = TkRoot.new do 
+  title "Geotechnical Database" 
+  minsize(1200,640)
+end
+
+# Create Parent container for tabs
+tabs = Tk::Tile::Notebook.new(root) do
+  height 120
+  place('height'=> 620, 'width'=> 1180, 'x'=> 10, 'y'=> 10)
+end
+
+# Create Tab Pages
+main_tab = Tk::Tile::Frame.new(tabs);
+project_tab = Tk::Tile::Frame.new(tabs);
+bh_tab = Tk::Tile::Frame.new(tabs);
+geo_tab = Tk::Tile::Frame.new(tabs);
+sample_tab = Tk::Tile::Frame.new(tabs);
+query_tab = Tk::Tile::Frame.new(tabs);
+
+# Populate Tabs container
+tabs.add main_tab, :text => 'Welcome Page'
+tabs.add project_tab, :text => 'Projects'
+tabs.add bh_tab, :text => 'Boreholes'
+tabs.add geo_tab, :text => 'Geologists'
+tabs.add sample_tab, :text => 'Samples'
+tabs.add query_tab, :text => 'Queries'
+
+
+Tk.mainloop

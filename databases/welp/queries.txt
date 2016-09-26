@@ -1,0 +1,18 @@
+Sofia Cepada (@sofiaclara on Github) and I paired for thi Challenge on 24 September 2016
+
+1.SELECT * FROM reviews, business, user WHERE reviews.business_id = business.id AND reviews.user_id = user.id; 
+
+1|5|great food!|1|1|1|Grundy Hallow Wedding Chapel|1|Bradford|Pitt
+2|2|music too loud!|2|3|2|Beagle Night Club|3|Angela|Jolie
+3|4|Really relaxing!|3|2|3|Lotus Yoga|2|Mandy|Kaling
+
+2.SELECT business.name, user.first_name, reviews.stars, reviews.comment  FROM reviews INNER JOIN business ON reviews.business_id = business.id INNER JOIN user ON reviews.user_id = user.id; 
+
+Grundy Hallow Wedding Chapel|Bradford|5|great food!
+Beagle Night Club|Angela|2|music too loud!
+Lotus Yoga|Mandy|4|Really relaxing!
+
+3. SELECT business.name, user.first_name, user.last_name, reviews.stars, reviews.comment FROM reviews INNER JOIN business ON  reviews.business_id = business.id INNER JOIN user ON reviews.user_id = user.id AND business.id = 1;
+
+Grundy Hallow Wedding Chapel|Bradford|Pitt|5|great food!
+

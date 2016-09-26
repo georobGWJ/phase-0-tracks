@@ -4,7 +4,7 @@
 # Robert Turner
 
 require 'sqlite3'
-require 'tk' # I hope to implement a GUI, time permitting
+require 'tk' 
 
 current_db_name = nil
 
@@ -88,8 +88,10 @@ def view_table(db, table)
 end
 
 # Pretty Print Table Data
-def pp_data(db, table)
-  data = view_table(db, table)
+def pp_data(db, table, data = nil)
+  if data == nil
+    data = view_table(db, table)
+  end
   pp_string = ''
 
   data.each do |entry|
@@ -104,8 +106,10 @@ def pp_data(db, table)
 end
 
 
-def pp_sample(db)
-  data = data = view_table(db, "samples")
+def pp_sample(db, data = nil)
+  if data == nil
+    data = data = view_table(db, "samples")
+  end
   pp_string = ''
 
   data.each do |entry|
@@ -156,6 +160,39 @@ def add_sample(db, bh, geo, depth, uscs, color, wetness, pgravel, psand, pfines,
     [bh, geo, depth, uscs, color, wetness, pgravel, psand, pfines, toughness, 
      plasticity, other])
 
+end
+
+
+
+def create_sql_helper(choice, operator, term, first_line_flag)
+  sub_search_string = ""
+
+  if (choice.to_s.length > 0  && operator.to_s.length > 0 && term.to_s.length > 0)
+    if !first_line_flag
+      sub_search_string += " AND "
+    end
+    
+    sub_search_string += (choice.to_s + " " + operator.to_s + " ")
+    if operator == "LIKE"
+      sub_search_string += ("'%" + term.to_s + "%'")
+    elsif term.to_i.to_s != term
+      sub_search_string += ("'" + term.to_s + "'")
+    else
+      sub_search_string += term.to_s
+    end  
+  end
+  sub_search_string
+end
+
+def create_sql_search(table, choice1, operator1, term1,
+                      choice2, operator2, term2, choice3, operator3, term3)
+  search_string = "SELECT * FROM #{table} WHERE "
+
+  search_string += create_sql_helper(choice1, operator1, term1, true)
+  search_string += create_sql_helper(choice2, operator2, term2, false)
+  search_string += create_sql_helper(choice3, operator3, term3, false)
+  
+  search_string
 end
 
 
@@ -535,17 +572,116 @@ query_f1 = Tk::Tile::Frame.new(query_tab) {borderwidth 1; relief "solid"}.
 grid( :column => 0, :row => 0, :sticky => 'nsew' )
 
 query_f2 = Tk::Tile::Frame.new(query_tab) {borderwidth 1; relief "solid"}.
-grid( :column => 2, :row => 0, :sticky => 'nsew' )
+grid( :column => 0, :row => 1, :sticky => 'nsew' )
 
-# Placeholder widgets for query_f1
-Tk::Tile::Label.new(query_f1) {text 'northwest'}.grid( :column => 0, :row => 0, :sticky => 'nsew')
-Tk::Tile::Label.new(query_f1) {text 'center'}.grid( :column => 1, :row => 1, :sticky => 'nsew')
-Tk::Tile::Label.new(query_f1) {text 'southeast'}.grid( :column => 2, :row => 2, :sticky => 'nsew')
+# Widgets to add new Borehole to database
+table = TkVariable.new
+choice1 = TkVariable.new
+operator1 = TkVariable.new
+term1 = TkVariable.new
+choice2 = TkVariable.new
+operator2 = TkVariable.new
+term2 = TkVariable.new
+choice3 = TkVariable.new
+operator3 = TkVariable.new
+term3 = TkVariable.new
 
-# Placeholder widgets for query_f2
-Tk::Tile::Label.new(query_f2) {text 'northwest'}.grid( :column => 0, :row => 0, :sticky => 'nsew')
-Tk::Tile::Label.new(query_f2) {text 'center'}.grid( :column => 1, :row => 1, :sticky => 'nsew')
-Tk::Tile::Label.new(query_f2) {text 'southeast'}.grid( :column => 2, :row => 2, :sticky => 'nsew')
+
+Tk::Tile::Label.new(query_f1) {text 'Search a Table'}.
+grid( :column => 0, :row => 0, :columnspan => 10, :sticky => 'ew')
+
+Tk::Tile::Separator.new(query_f1) { orient 'horizontal' }.
+grid( :column => 0, :row => 1, :columnspan => 10, :sticky => 'ew')
+
+Tk::Tile::RadioButton.new(query_f1) {text 'Projects'; variable table; value 'projects'}.
+grid( :column => 0, :row => 2, :sticky => 'w')
+
+Tk::Tile::RadioButton.new(query_f1) {text 'Boreholes'; variable table; value 'boreholes'}.
+grid( :column => 0, :row => 3, :sticky => 'w')
+
+Tk::Tile::RadioButton.new(query_f1) {text 'Samples'; variable table; value 'samples'}.
+grid( :column => 0, :row => 4, :sticky => 'w')
+
+Tk::Tile::Separator.new(query_f1) { orient 'horizontal' }.
+grid( :column => 0, :row => 5, :columnspan => 10, :sticky => 'ew')
+
+# Search term 1
+Tk::Tile::Label.new(query_f1) {text 'Search Term 1: '}.
+grid( :column => 0, :row => 6, :sticky => 'ew')
+
+ch_combo1 = Tk::Tile::Combobox.new(query_f1) { textvariable choice1 }.
+grid( :column => 1, :row => 6, :sticky => 'we' )
+ch_combo1.values = ["", "project", "client", "designation", "northing", "easting", 
+                 "depth", "elevation", "USCS", "color", "wetness",
+                 "percent_gravel", "percent_sand", "percent_fines",
+                 "plasticity", "toughness"]
+
+op_combo1 =Tk::Tile::Combobox.new(query_f1) { textvariable operator1 }.
+grid( :column => 2, :row => 6, :sticky => 'we' )
+op_combo1.values = ["=", ">", ">=", "<", "<=", "LIKE"]
+
+Tk::Tile::Entry.new(query_f1) { width 20; textvariable term1 }.
+grid( :column => 3, :row => 6, :sticky => 'we' )
+
+# Search term 2
+Tk::Tile::Label.new(query_f1) {text 'Search Term 2: '}.
+grid( :column => 0, :row => 7, :sticky => 'ew')
+
+ch_combo2 = Tk::Tile::Combobox.new(query_f1) { textvariable choice2 }.
+grid( :column => 1, :row => 7, :sticky => 'we' )
+ch_combo2.values = ["", "project", "client", "designation", "northing", "easting", 
+                 "depth", "elevation", "USCS", "color", "wetness",
+                 "percent_gravel", "percent_sand", "percent_fines",
+                 "plasticity", "toughness"]
+
+op_combo2 =Tk::Tile::Combobox.new(query_f1) { textvariable operator2 }.
+grid( :column => 2, :row => 7, :sticky => 'we' )
+op_combo2.values = ["=", ">", ">=", "<", "<=", "LIKE"]
+
+Tk::Tile::Entry.new(query_f1) { width 20; textvariable term2 }.
+grid( :column => 3, :row => 7, :sticky => 'we' )
+
+# Search term 3
+Tk::Tile::Label.new(query_f1) {text 'Search Term 3: '}.
+grid( :column => 0, :row => 8, :sticky => 'ew')
+
+ch_combo3 = Tk::Tile::Combobox.new(query_f1) { textvariable choice3 }.
+grid( :column => 1, :row => 8, :sticky => 'we' )
+ch_combo3.values = ["", "project", "client", "designation", "northing", "easting", 
+                 "depth", "elevation", "USCS", "color", "wetness",
+                 "percent_gravel", "percent_sand", "percent_fines",
+                 "plasticity", "toughness"]
+
+op_combo3 =Tk::Tile::Combobox.new(query_f1) { textvariable operator3 }.
+grid( :column => 2, :row => 8, :sticky => 'we' )
+op_combo3.values = ["=", ">", ">=", "<", "<=", "LIKE"]
+
+Tk::Tile::Entry.new(query_f1) { width 20; textvariable term3 }.
+grid( :column => 3, :row => 8, :sticky => 'we' )
+
+Tk::Tile::Separator.new(query_f1) { orient 'horizontal' }.
+grid( :column => 0, :row => 9, :columnspan => 10, :sticky => 'ew')
+
+
+search_string = ""
+search_results = ""
+
+results = Tk::Tile::Label.new(query_f2) { text " . . . " }.
+grid( :column => 0, :row => 0)
+
+Tk::Tile::Button.new(query_f1) {text 'SEARCH'; 
+
+command { search_string = create_sql_search(table.to_s, choice1.to_s, 
+          operator1.to_s, term1.to_s, choice2.to_s, operator2.to_s, term2.to_s,
+          choice3.to_s, operator3.to_s, term3.to_s)
+          search_results = db.execute(search_string)
+          if table == "samples"
+            results['text'] = pp_sample(db, search_results) 
+          else
+            results['text'] = pp_data(db, table, search_results)
+          end }}.
+grid( :column => 0, :row => 10, :columnspan => 10, :sticky => 'ew')
+
 
 
 Tk.mainloop

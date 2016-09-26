@@ -238,9 +238,29 @@ grid( :column => 0, :row => 0, :sticky => 'nsew' )
 main_f2 = Tk::Tile::Frame.new(main_tab) {borderwidth 1; relief "solid"}.
 grid( :column => 0, :row => 1, :sticky => 'nsew' )
 
-# Widget with intro text
-Tk::Tile::Label.new(main_f1) {text 'WELCOME'}.
+# Widget with Intro text
+Tk::Tile::Label.new(main_f1) {text 'Welcome to the Geotechnical Database Frontend!'}.
 grid( :column => 0, :row => 0, :columnspan => 5, :sticky => 'ew')
+
+Tk::Tile::Separator.new(main_f1) { orient 'horizontal' }.
+grid( :column => 0, :row => 1, :columnspan => 10, :sticky => 'ew')
+
+Tk::Tile::Label.new(main_f1) {text 'Here, you can create new geotechical 
+databases or to add to existing geotechnical databases.'}.
+grid( :column => 0, :row => 2, :columnspan => 5, :sticky => 'ew')
+
+Tk::Tile::Label.new(main_f1) {text 'All database files exist inside of the folder
+where this Ruby file is located. It can only open files inside this folder and
+new databases created will exist in this folder. By default, an example 
+database file is opened for manipulation.'}.
+grid( :column => 0, :row => 3, :columnspan => 5, :sticky => 'ew')
+
+Tk::Tile::Label.new(main_f1) {text 'The Query tab allows you to search the 
+database tables using one to three search criteria.'}.
+grid( :column => 0, :row => 4, :columnspan => 5, :sticky => 'ew')
+
+Tk::Tile::Label.new(main_f1) {text 'Have fun!'}.
+grid( :column => 0, :row => 5, :columnspan => 5, :sticky => 'ew')
 
 # Widgets to Open or Create a Database
 new_db_name = TkVariable.new

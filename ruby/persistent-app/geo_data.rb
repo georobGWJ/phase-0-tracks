@@ -191,6 +191,7 @@ end
 # INITIALIZE
 #============================================================================
 
+# By default, the example db is opened.
 db = create_db("example")
 
 #============================================================================
@@ -475,7 +476,7 @@ grid( :column => 0, :row => 0, :sticky => 'new' )
 sample_f2_bottom = Tk::Tile::Frame.new(sample_f2) { }.
 grid( :column => 0, :row => 1, :sticky => 's' )
 
-# Widgets to add new Borehole to database
+# Widgets to add new Sample to database
 tk_bh = TkVariable.new
 tk_geo = TkVariable.new
 tk_depth = TkVariable.new
@@ -496,12 +497,12 @@ grid( :column => 0, :row => 0, :columnspan => 10, :sticky => 'ew')
 Tk::Tile::Separator.new(sample_f1) { orient 'horizontal' }.
 grid( :column => 0, :row => 1, :columnspan => 10, :sticky => 'ew')
 
-Tk::Tile::Label.new(sample_f1) {text 'Borehole: '}.
+Tk::Tile::Label.new(sample_f1) {text 'Borehole ID: '}.
 grid( :column => 1, :row => 2, :sticky => 'ew')
 Tk::Tile::Entry.new(sample_f1) {width 20; textvariable tk_bh}.
 grid( :column => 2, :row => 2, :sticky => 'we' )
 
-Tk::Tile::Label.new(sample_f1) {text 'Rig Geologist: '}.
+Tk::Tile::Label.new(sample_f1) {text 'Rig Geologist ID: '}.
 grid( :column => 1, :row => 3, :sticky => 'ew')
 Tk::Tile::Entry.new(sample_f1) {width 20; textvariable tk_geo}.
 grid( :column => 2, :row => 3, :sticky => 'we' )
@@ -583,7 +584,7 @@ tk_color.to_s, tk_wet.to_s, tk_grav.to_s, tk_sand.to_s, tk_fine.to_s,
 tk_plast.to_s, tk_tough.to_s, tk_other.to_s)}}.
 grid( :column => 5, :row => 8, :sticky => 'ew')
 
-# Widgets to display Borehole table data
+# Widgets to display Sample table data
 sample_data = Tk::Tile::Label.new(sample_f2_top) { text pp_sample(db) }.
 grid( :column => 0, :row => 0)
 
@@ -602,7 +603,7 @@ grid( :column => 0, :row => 0, :sticky => 'nsew' )
 query_f2 = Tk::Tile::Frame.new(query_tab) {borderwidth 1; relief "solid"}.
 grid( :column => 0, :row => 1, :sticky => 'nsew' )
 
-# Widgets to add new Borehole to database
+# Widgets to create and execute database search and to display the results
 table = TkVariable.new
 choice1 = TkVariable.new
 operator1 = TkVariable.new
@@ -689,10 +690,6 @@ grid( :column => 3, :row => 8, :sticky => 'we' )
 
 Tk::Tile::Separator.new(query_f1) { orient 'horizontal' }.
 grid( :column => 0, :row => 9, :columnspan => 10, :sticky => 'ew')
-
-
-search_string = ""
-search_results = ""
 
 results = Tk::Tile::Label.new(query_f2) { text " . . . " }.
 grid( :column => 0, :row => 0)

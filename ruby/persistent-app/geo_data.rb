@@ -6,14 +6,11 @@
 require 'sqlite3'
 require 'tk' 
 
-current_db_name = nil
-db = ''
-db = open_db("example.db")
-
 # Helper Methods
 
 # Create a brand new empty database
 def create_db(db_name)
+
   db = SQLite3::Database.new(db_name + ".db")
   db.results_as_hash = true
 
@@ -21,7 +18,7 @@ def create_db(db_name)
   create_project_table = <<-SQL
   CREATE TABLE IF NOT EXISTS projects(
     id INTEGER PRIMARY KEY,
-    name VARCHAR(255) UNIQUE,
+    name VARCHAR(255),
     client VARCHAR(255)
   )
   SQL
@@ -30,7 +27,7 @@ def create_db(db_name)
   create_geo_table = <<-SQL
   CREATE TABLE IF NOT EXISTS geologists(
     id INTEGER PRIMARY KEY,
-    name VARCHAR(255) UNIQUE,
+    name VARCHAR(255),
     company VARCHAR(255)
   )
   SQL
@@ -39,7 +36,7 @@ def create_db(db_name)
   create_borehole_table = <<-SQL
   CREATE TABLE IF NOT EXISTS boreholes(
     id INTEGER PRIMARY KEY,
-    designation VARCHAR(255) UNIQUE,
+    designation VARCHAR(255),
     northing REAL,
     easting REAL,
     elevation REAL,
@@ -79,12 +76,7 @@ end
 
 # Load an existing database, Create a new one if it doesn't exist
 def open_db(db_name)
-  if !(File.file?(filename.to_s + ".db"))
-    db = SQLite3::Database.open(db_name)
-  else
-    db = create_db(db_name)
-  end
-
+  db = SQLite3::Database.new(db_name.to_s + ".db")
   db.results_as_hash = true
   db
 end
@@ -115,11 +107,11 @@ end
 
 def pp_sample(db, data = nil)
   if data == nil
-    data = data = view_table(db, "samples")
+    sample_data = view_table(db, "samples")
   end
   pp_string = ''
 
-  data.each do |entry|
+  sample_data.each do |entry|
 
     pp_string += "| ID: " + ('%-3s' % "#{entry['id']}")
     pp_string += "| Boring: " + ('%-3s' % "#{entry['bh_id']}")
@@ -140,8 +132,8 @@ def pp_sample(db, data = nil)
 end
 
 # Add Project to database
-def add_project(db, name, client = nil)
-  db.execute("INSERT INTO projects (name, client) VALUES (?, ?)", [name, client])
+def add_project(db, proj_name, client)
+  db.execute("INSERT INTO projects (name, client) VALUES (?, ?)", [proj_name, client])
 end
 
 # Add Borehole to database
@@ -152,9 +144,9 @@ def add_borehole(db, desig, north, east, elev, proj_id)
 end
 
 # Add Geologist to database
-def add_geo(db, name, company = nil )
+def add_geo(db, geo_name, company)
   db.execute("INSERT INTO geologists (name, company) 
-              VALUES (?, ?)", [name, company])
+              VALUES (?, ?)", [geo_name, company])
 end
 
 # Add Sample to database
@@ -167,8 +159,6 @@ def add_sample(db, bh, geo, depth, uscs, color, wetness, pgravel, psand, pfines,
     [bh, geo, depth, uscs, color, wetness, pgravel, psand, pfines, toughness, 
      plasticity, other])
 end
-
-
 
 def create_sql_helper(choice, operator, term, first_line_flag)
   sub_search_string = ""
@@ -201,6 +191,11 @@ def create_sql_search(table, choice1, operator1, term1,
   search_string
 end
 
+#============================================================================
+# INITIALIZE
+#============================================================================
+
+db = create_db("example")
 
 #============================================================================
 #    GUI CODE
@@ -245,13 +240,33 @@ main_f1 = Tk::Tile::Frame.new(main_tab) {borderwidth 1; relief "solid"}.
 grid( :column => 0, :row => 0, :sticky => 'nsew' )
 
 main_f2 = Tk::Tile::Frame.new(main_tab) {borderwidth 1; relief "solid"}.
-grid( :column => 0, :row => 0, :sticky => 'nsew' )
+grid( :column => 0, :row => 1, :sticky => 'nsew' )
+
+# Widget with intro text
+Tk::Tile::Label.new(main_f1) {text 'WELCOME'}.
+grid( :column => 0, :row => 0, :columnspan => 5, :sticky => 'ew')
+
+# Widgets to Open or Create a Database
+new_db_name = TkVariable.new
+
+Tk::Tile::Label.new(main_f2) {text 'Open or Create Database'}.
+grid( :column => 0, :row => 0, :columnspan => 5, :sticky => 'ew')
+
+Tk::Tile::Separator.new(main_f2) { orient 'horizontal' }.
+grid( :column => 0, :row => 1, :columnspan => 5, :sticky => 'ew')
+
+Tk::Tile::Label.new(main_f2) {text 'Database Name:'}.
+grid( :column => 0, :row => 2, :sticky => 'ew')
+Tk::Tile::Label.new(main_f2) {text '(Do not include file extension.)'}.
+grid( :column => 0, :row => 3, :sticky => 'ew')
+Tk::Tile::Entry.new(main_f2) {width 50; textvariable new_db_name}.
+grid( :column => 1, :row => 2, :sticky => 'we' )
+
+Tk::Tile::Button.new(main_f2) {text 'Open / Create'; 
+command {db = create_db(new_db_name.to_s)}}.
+grid( :column => 3, :row => 5, :sticky => 'ew')
 
 
-
-Tk::Tile::Label.new(main_f1) {text '          '}.grid( :column => 0, :row => 0, :sticky => 'nsew')
-Tk::Tile::Label.new(main_f1) {text ' WELCOME! '}.grid( :column => 1, :row => 1, :sticky => 'nsew')
-Tk::Tile::Label.new(main_f1) {text '          '}.grid( :column => 2, :row => 2, :sticky => 'nsew')
 
 #============================================================================
 # Populate Projects Tab
@@ -296,13 +311,11 @@ command {add_project(db, tk_name.to_s, tk_client.to_s)}}.
 grid( :column => 3, :row => 5, :sticky => 'ew')
 
 # Widgets to display Project table data
-project_data = view_table(db, "projects")
-
-data = Tk::Tile::Label.new(proj_f2_top) { text pp_data(db, "projects") }.
+tab2_data = Tk::Tile::Label.new(proj_f2_top) { text pp_data(db, "projects") }.
 grid( :column => 0, :row => 0)
 
 Tk::Tile::Button.new(proj_f2_bottom) {text 'Refresh'; 
-command {data['text'] = pp_data(db, "projects")}}.
+command {tab2_data['text'] = pp_data(db, "projects", view_table(db, "projects"))}}.
 grid( :column => 3, :row => 3, :sticky => 'ew')
 
 
@@ -369,13 +382,11 @@ tk_elev.to_s, tk_proj.to_s)}}.
 grid( :column => 3, :row => 8, :sticky => 'ew')
 
 # Widgets to display Borehole table data
-project_data = view_table(db, "boreholes")
-
 data = Tk::Tile::Label.new(bh_f2_top) { text pp_data(db, "boreholes") }.
 grid( :column => 0, :row => 0)
 
 Tk::Tile::Button.new(bh_f2_bottom) {text 'Refresh'; 
-command {data['text'] = pp_data(db, "boreholes")}}.
+command {data['text'] = pp_data(db, "boreholes", view_table(db, "boreholes"))}}.
 grid( :column => 0, :row => 3, :sticky => 'ew')
 
 #============================================================================
@@ -394,7 +405,7 @@ geo_f2_bottom = Tk::Tile::Frame.new(geo_f2) { }.
 grid( :column => 0, :row => 1, :sticky => 's' )
 
 # Widgets to add new Geologist to database
-tk_name = TkVariable.new
+tk_geo_name = TkVariable.new
 tk_company = TkVariable.new
 
 Tk::Tile::Label.new(geo_f1) {text 'Add New Geologist to Database'}.
@@ -405,7 +416,7 @@ grid( :column => 0, :row => 1, :columnspan => 5, :sticky => 'ew')
 
 Tk::Tile::Label.new(geo_f1) {text 'Geo Name: '}.
 grid( :column => 1, :row => 2, :sticky => 'ew')
-Tk::Tile::Entry.new(geo_f1) {width 30; textvariable tk_name}.
+Tk::Tile::Entry.new(geo_f1) {width 30; textvariable tk_geo_name}.
 grid( :column => 3, :row => 2, :sticky => 'we' )
 
 Tk::Tile::Label.new(geo_f1) {text 'Company: '}.
@@ -417,17 +428,15 @@ Tk::Tile::Separator.new(geo_f1) { orient 'horizontal' }.
 grid( :column => 0, :row => 4, :columnspan => 5, :sticky => 'ew')
 
 Tk::Tile::Button.new(geo_f1) {text 'Add Geologist'; 
-command {add_geo(db, tk_name.to_s, tk_company.to_s)}}.
+command {add_geo(db, tk_geo_name.to_s, tk_company.to_s)}}.
 grid( :column => 3, :row => 5, :sticky => 'sew')
 
 # Widgets to display Geologist table data
-project_data = view_table(db, "geologists")
-
 data = Tk::Tile::Label.new(geo_f2_top) { text pp_data(db, "geologists") }.
 grid( :column => 0, :row => 0)
 
 Tk::Tile::Button.new(geo_f2_bottom) {text 'Refresh'; 
-command {data['text'] = pp_data(db, "geologists")}}.
+command {data['text'] = pp_data(db, "geologists", geo_data, view_table(db, "geologists"))}}.
 grid( :column => 0, :row => 3, :sticky => 'ew')
 
 
@@ -555,13 +564,11 @@ tk_plast.to_s, tk_tough.to_s, tk_other.to_s)}}.
 grid( :column => 5, :row => 8, :sticky => 'ew')
 
 # Widgets to display Borehole table data
-project_data = view_table(db, "boreholes")
-
 data = Tk::Tile::Label.new(sample_f2_top) { text pp_sample(db) }.
 grid( :column => 0, :row => 0)
 
 Tk::Tile::Button.new(sample_f2_bottom) {text 'Refresh'; 
-command {data['text'] = pp_sample(db)}}.
+command {data['text'] = pp_sample(db, view_table(db, "boreholes"))}}.
 grid( :column => 0, :row => 3, :sticky => 'ew')
 
 

@@ -7,6 +7,8 @@ require 'sqlite3'
 require 'tk' 
 
 current_db_name = nil
+db = ''
+db = open_db("example.db")
 
 # Helper Methods
 
@@ -75,9 +77,14 @@ def create_db(db_name)
   db
 end
 
-# Load an existing database
+# Load an existing database, Create a new one if it doesn't exist
 def open_db(db_name)
-  db = SQLite3::Database.open(db_name)
+  if !(File.file?(filename.to_s + ".db"))
+    db = SQLite3::Database.open(db_name)
+  else
+    db = create_db(db_name)
+  end
+
   db.results_as_hash = true
   db
 end
@@ -159,7 +166,6 @@ def add_sample(db, bh, geo, depth, uscs, color, wetness, pgravel, psand, pfines,
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
     [bh, geo, depth, uscs, color, wetness, pgravel, psand, pfines, toughness, 
      plasticity, other])
-
 end
 
 
@@ -171,7 +177,7 @@ def create_sql_helper(choice, operator, term, first_line_flag)
     if !first_line_flag
       sub_search_string += " AND "
     end
-    
+
     sub_search_string += (choice.to_s + " " + operator.to_s + " ")
     if operator == "LIKE"
       sub_search_string += ("'%" + term.to_s + "%'")
@@ -195,13 +201,6 @@ def create_sql_search(table, choice1, operator1, term1,
   search_string
 end
 
-
-# TEST DRIVER CODE
-
-db = open_db("test.db")
-
-
-# data = db.execute("SELECT * FROM projects")
 
 #============================================================================
 #    GUI CODE
@@ -245,8 +244,10 @@ tabs.add query_tab, :text => 'Queries'
 main_f1 = Tk::Tile::Frame.new(main_tab) {borderwidth 1; relief "solid"}.
 grid( :column => 0, :row => 0, :sticky => 'nsew' )
 
-# welcome_f2 = Tk::Tile::Frame.new(project_tab) {borderwidth 1; relief "solid"}.
-# grid( :column => 2, :row => 0, :sticky => 'nsew' )
+main_f2 = Tk::Tile::Frame.new(main_tab) {borderwidth 1; relief "solid"}.
+grid( :column => 0, :row => 0, :sticky => 'nsew' )
+
+
 
 Tk::Tile::Label.new(main_f1) {text '          '}.grid( :column => 0, :row => 0, :sticky => 'nsew')
 Tk::Tile::Label.new(main_f1) {text ' WELCOME! '}.grid( :column => 1, :row => 1, :sticky => 'nsew')

@@ -6,6 +6,8 @@
 require 'sqlite3'
 require 'tk' 
 
+current_db_name = "example.db"
+
 # Helper Methods
 
 # Create a brand new empty database
@@ -13,6 +15,7 @@ def create_db(db_name)
 
   db = SQLite3::Database.new(db_name + ".db")
   db.results_as_hash = true
+  current_db_name = (db_name + ".db")
 
   # Create Project Table
   create_project_table = <<-SQL
@@ -74,13 +77,6 @@ def create_db(db_name)
   db
 end
 
-# Load an existing database, Create a new one if it doesn't exist
-def open_db(db_name)
-  db = SQLite3::Database.new(db_name.to_s + ".db")
-  db.results_as_hash = true
-  db
-end
-
 # Get all single table data
 def view_table(db, table)
   db.execute("SELECT * FROM #{table}")
@@ -105,8 +101,8 @@ def pp_data(db, table, data = nil)
 end
 
 
-def pp_sample(db, data = nil)
-  if data == nil
+def pp_sample(db, sample_data = nil)
+  if sample_data == nil
     sample_data = view_table(db, "samples")
   end
   pp_string = ''
@@ -250,20 +246,24 @@ grid( :column => 0, :row => 0, :columnspan => 5, :sticky => 'ew')
 new_db_name = TkVariable.new
 
 Tk::Tile::Label.new(main_f2) {text 'Open or Create Database'}.
-grid( :column => 0, :row => 0, :columnspan => 5, :sticky => 'ew')
+grid( :column => 0, :row => 0, :columnspan => 5, :sticky => 'w')
+
+db_title = Tk::Tile::Label.new(main_f2) {text "Currently Open Database: #{current_db_name}"}.
+grid( :column => 1, :row => 0, :sticky => 'e')
 
 Tk::Tile::Separator.new(main_f2) { orient 'horizontal' }.
-grid( :column => 0, :row => 1, :columnspan => 5, :sticky => 'ew')
+grid( :column => 0, :row => 2, :columnspan => 5, :sticky => 'ew')
 
 Tk::Tile::Label.new(main_f2) {text 'Database Name:'}.
-grid( :column => 0, :row => 2, :sticky => 'ew')
-Tk::Tile::Label.new(main_f2) {text '(Do not include file extension.)'}.
 grid( :column => 0, :row => 3, :sticky => 'ew')
-Tk::Tile::Entry.new(main_f2) {width 50; textvariable new_db_name}.
-grid( :column => 1, :row => 2, :sticky => 'we' )
+Tk::Tile::Label.new(main_f2) {text '(Do not include file extension.)'}.
+grid( :column => 0, :row => 4, :sticky => 'ew')
+Tk::Tile::Entry.new(main_f2) {width 40; textvariable new_db_name}.
+grid( :column => 1, :row => 3, :sticky => 'we' )
 
 Tk::Tile::Button.new(main_f2) {text 'Open / Create'; 
-command {db = create_db(new_db_name.to_s)}}.
+command { db = create_db(new_db_name.to_s)
+          db_title['text'] = "Currently Open Database: #{new_db_name + ".db"}"}}.
 grid( :column => 3, :row => 5, :sticky => 'ew')
 
 
@@ -382,11 +382,11 @@ tk_elev.to_s, tk_proj.to_s)}}.
 grid( :column => 3, :row => 8, :sticky => 'ew')
 
 # Widgets to display Borehole table data
-data = Tk::Tile::Label.new(bh_f2_top) { text pp_data(db, "boreholes") }.
+bh_data = Tk::Tile::Label.new(bh_f2_top) { text pp_data(db, "boreholes") }.
 grid( :column => 0, :row => 0)
 
 Tk::Tile::Button.new(bh_f2_bottom) {text 'Refresh'; 
-command {data['text'] = pp_data(db, "boreholes", view_table(db, "boreholes"))}}.
+command {bh_data['text'] = pp_data(db, "boreholes", view_table(db, "boreholes"))}}.
 grid( :column => 0, :row => 3, :sticky => 'ew')
 
 #============================================================================
@@ -432,11 +432,11 @@ command {add_geo(db, tk_geo_name.to_s, tk_company.to_s)}}.
 grid( :column => 3, :row => 5, :sticky => 'sew')
 
 # Widgets to display Geologist table data
-data = Tk::Tile::Label.new(geo_f2_top) { text pp_data(db, "geologists") }.
+geo_data = Tk::Tile::Label.new(geo_f2_top) { text pp_data(db, "geologists") }.
 grid( :column => 0, :row => 0)
 
 Tk::Tile::Button.new(geo_f2_bottom) {text 'Refresh'; 
-command {data['text'] = pp_data(db, "geologists", geo_data, view_table(db, "geologists"))}}.
+command {geo_data['text'] = pp_data(db, "geologists", view_table(db, "geologists"))}}.
 grid( :column => 0, :row => 3, :sticky => 'ew')
 
 
@@ -564,11 +564,11 @@ tk_plast.to_s, tk_tough.to_s, tk_other.to_s)}}.
 grid( :column => 5, :row => 8, :sticky => 'ew')
 
 # Widgets to display Borehole table data
-data = Tk::Tile::Label.new(sample_f2_top) { text pp_sample(db) }.
+sample_data = Tk::Tile::Label.new(sample_f2_top) { text pp_sample(db) }.
 grid( :column => 0, :row => 0)
 
 Tk::Tile::Button.new(sample_f2_bottom) {text 'Refresh'; 
-command {data['text'] = pp_sample(db, view_table(db, "boreholes"))}}.
+command {sample_data['text'] = pp_sample(db, view_table(db, "samples"))}}.
 grid( :column => 0, :row => 3, :sticky => 'ew')
 
 

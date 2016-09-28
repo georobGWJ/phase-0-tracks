@@ -8,7 +8,7 @@ I plan on starting learning about JQuery by finding it's official page. While th
 **Release 1: Study Up**
 *LEARN THE THING (2 HOURS MAX)*
 *Time to execute your plan. Aaaand ... go! When the time is up, record in notes.md which strategies seemed to be the most effective.*
-
+I found that there really aren't a lot of tutorials for JQuery, at least not the kind that walk you through things step by step. I did learn a lot about the topic but mostly by 'reading' the code. I did find an excellent cheat sheet that links to the offical documentation. What was most useful for me was working through examples on W3Schools and creating some of my own test code.
 
 
 **Release 2: Make a Thing**

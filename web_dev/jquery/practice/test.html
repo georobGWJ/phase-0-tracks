@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Demo</title>
+    <style> a.test { font-weight: bold; } </style>
+    <style> p {font-family: "Helvetica"; font-size: 30px} </style>
+    <style> li {font-family: "Helvetica"; font-size: 20px} </style>
+    <style> li.test {font-size: 30px} </style>
+    <style> button {
+      width: 150px;
+      height: 150px;
+      background-color: #008CBA;
+      border: none;
+      color: white} 
+      </style>
+</head>
+<body>
+    <a href="http://jquery.com/">jQuery</a>
+    <script src="jquery-3.1.1.js"></script>
+    <script>
+ 
+    // This pops up a window thanking people for visiting
+    // whan anything is clicked
+    // $( document ).ready(function() {
+    //   $( "a" ).click(function( event ) {
+    //       alert( "Thanks for visiting!" );
+    //   });
+    // });
+
+    // Disables link functionality
+    // $( document ).ready(function() {
+    //   $( "a" ).click(function( event ) {
+    //       alert( "As you can see, the link no longer took you to jquery.com" );
+    //       event.preventDefault();
+    //   });
+    // });
+ 
+    // Adds "test" styling defined in header
+    $( "a" ).addClass( "test" );
+
+    // Makes clicked links slowly fade upon being clicked
+    $( "a" ).click(function( event ) {
+      event.preventDefault();
+      $( this ).hide( "slow" );
+    });
+
+    $(document).ready(function(){
+      $("p").click(function(){
+        $(this).fadeOut( "slow" );
+      });
+    });
+
+    // $(document).ready(function(){
+    //   $( "li" ).hover(
+    //   function() {
+    //     $( this ).fadeOut( 600);
+    //   },
+    //   function(){
+    //     $( this ).fadeIn( 600 );
+    //   });
+    // });
+
+
+    $(document).ready(function(){
+      $("li").mouseenter(function(){
+        $( this ).fadeOut( 600 );
+        //$( "li" ).addClass( "test" );
+      });
+    });
+
+    $(document).ready(function(){
+      $("li").mouseleave(function(){
+        $( this ).fadeIn( 600 );
+        //$( "li" ).addClass(  );
+      });
+    });
+
+
+
+    </script>
+
+    <p>This is a paragraph. Click it and it will disappear!</p>
+    <ul>
+      <li>Cheese</li>
+      <li>Bread</li>
+      <li>Milk</li>
+    </ul>
+    <button>Button!</button>
+</body>
+</html>

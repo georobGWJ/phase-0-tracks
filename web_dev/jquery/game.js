@@ -2,11 +2,12 @@
 // the total number of matches
 
 //
-var num_flipped = 0;
-var total_score = 0;
-var face_up_cards = [];
+var matches = 0;
 var guesses = [];
 var flips = 0; 
+var current_score = 0;
+var best;
+var current;
 
 $(document).ready(function(){  
     $( "button" ).click(function( event ) {
@@ -14,7 +15,7 @@ $(document).ready(function(){
       } else if ($(this).hasClass("face_down")) {
         $(this).removeClass("face_down");
         $(this).addClass("face_up");
-        flips = flips + 1
+        flips = flips + 1;
         guesses.push([$(this).text(), $(this).attr('id')]);
       } else {
         $(this).removeClass("face_up");
@@ -22,56 +23,45 @@ $(document).ready(function(){
         flips = flips - 1;
       }
       if (flips % 2 == 0) {
+        current_score = current_score + 1;
+
         if (guesses[flips-1][0] == guesses[flips-2][0]) {
           console.log("MATCH!!!")
           $("#" + guesses[flips-1][1]).removeClass("face_up");
           $("#" + guesses[flips-1][1]).addClass("matched");
           $("#" + guesses[flips-2][1]).removeClass("face_up");
           $("#" + guesses[flips-2][1]).addClass("matched");
-          total_score++;
+          matches++;
         } else {
           $("#" + guesses[flips-1][1]).removeClass("face_up");
           $("#" + guesses[flips-1][1]).addClass("face_down");
           $("#" + guesses[flips-2][1]).removeClass("face_up");
           $("#" + guesses[flips-2][1]).addClass("face_down");
         }
-
       }
-      console.log(guesses[flips-1][0], "   |   ", guesses[flips-2][0]);
-      console.log(guesses[flips-1][1], "   |   ", guesses[flips-2][1]);
-      console.log(guesses[flips-1][0] == guesses[flips-2][0]);
+      best = document.getElementById("best");
+      current = document.getElementById("current");
+      current.innerHTML = current_score.toString();
+
+      if (matches == 8) {
+        best = current_score;
+        alert("You Win!");
+      }
     });
   });
 
-// while (total_score <=2) {
-  // if (flips % 2 == 0) {
-  //   if (guesses[flips-1][0] == guesses[flips-2][0]) {
-  //     console.log("MATCH!!!")
-  //     $(guesses[flips-1][1]).removeClass("face_up");
-  //     $(guesses[flips-1][1]).addClass("matched");
-  //     $(guesses[flips-2][1]).removeClass("face_up");
-  //     $(guesses[flips-2][1]).addClass("matched");
-  //     // guesses[0].addClass("matched");
-  //     // guesses[1].addClass("matched");
-  //     total_score++;
-  //   } else {
-  //     //
-  //   }
+$(document).ready(function(){
+    function resetGame() {
+      $(".card").removeClass("face_up");
+      $(".card").removeClass("matched");
+      $(".card").addClass("face_down");
+      current_score = 0;
+      flips = 0;
+      guesses = [];
+      current.innerHTML = current_score.toString();
+      return;
+  }
+});
 
-  // }
-// }
-
-//   if ( num_flipped == 2 ) {
-//     $( id1 ).removeClass( "on" );
-//     $( id2 ).removeClass( "on" );
-//   }
-
-
-// if (total == 10) {
-//   alert( "You win!" );
-// }
-
-// while (total <= 10) {
-//   flip_turn()
-// }
-
+reset_button = document.getElementById("reset_button");
+reset_button.addEventListener("click", resetGame);

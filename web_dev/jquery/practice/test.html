@@ -12,7 +12,8 @@
       height: 150px;
       background-color: #008CBA;
       border: none;
-      color: white} 
+      color: white;
+      float: left;} 
       </style>
 </head>
 <body>
@@ -38,6 +39,7 @@
  
     // Adds "test" styling defined in header
     $( "a" ).addClass( "test" );
+    $( "a" ).removeClass( "test" );
 
     // Makes clicked links slowly fade upon being clicked
     $( "a" ).click(function( event ) {

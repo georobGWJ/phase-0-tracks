@@ -1,0 +1,31 @@
+h1 {font-family: "Helvetica"}
+  
+.face_down {
+      width: 100px;
+      height: 100px;
+      background-color: #008CBA;
+      color: #008CBA;
+      font-family: : "Helvetica";
+      font-size: 20px;
+      border: none;
+      float: left } 
+
+.face_up {
+      width: 100px;
+      height: 100px;
+      background-color: #008CBA;
+      color: white;
+      font-family: : "Helvetica";
+      font-size: 20px;
+      border: 1px solid black;
+      float: left } 
+
+.matched {
+      width: 100px;
+      height: 100px;
+      background-color: #A8CD1B;
+      color: white;
+      font-family: : "Helvetica";
+      font-size: 20px;
+      border: 1px solid black;
+      float: left } 

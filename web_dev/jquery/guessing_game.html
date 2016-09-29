@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>A Simple Matching Game</title>
+  <link rel="stylesheet" type="text/css" href="./style.css">
+  <script type="text/javascript" src="jquery-3.1.1.js"> </script>
+  <script type="text/javascript" src="game.js"> </script>
+</head>
+
+<body>
+
+
+  <h1>A Simple Matching Game</h1>
+  <h2> Find matches to win.</h2>
+
+  <table class = "scores">
+    <tr>
+      <th>Fewest Number of Guesses</th>
+      <th>Current Number of Guesses</th>
+    </tr>
+    <tr>
+      <td id = "best"> 50 </td>
+      <td id = "current"> 0 </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <td>
+        <button class="face_down card" id="b1">CHOW</button>
+      </td>
+      <td>
+        <button class="face_down card" id="b2">BULLDOG</button>
+      </td>
+      <td>
+        <button class="face_down card" id="b3">CHOW</button>
+      </td>
+      <td>
+        <button class="face_down card" id="b4">BEAGLE</button>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <button class="face_down card" id="b5">SHIBA INU</button>
+      </td>
+      <td>
+        <button class="face_down card" id="b6">HOUND</button>
+      </td>
+      <td>
+        <button class="face_down card" id="b7">PUG</button>
+      </td>
+      <td>
+        <button class="face_down card" id="b8">TERRIER</button>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <button class="face_down card" id="b9">PUG</button>
+      </td>
+      <td>
+        <button class="face_down card" id="b10">BEAGLE</button>
+      </td>
+      <td>
+        <button class="face_down card" id="b11">LAB</button>
+      </td>
+      <td>
+        <button class="face_down card" id="b12">LAB</button>
+      </td>
+    </tr>
+        <tr>
+      <td>
+        <button class="face_down card" id="b13">SHIBA INU</button>
+      </td>
+      <td>
+        <button class="face_down card" id="b14">TERRIER</button>
+      </td>
+      <td>
+        <button class="face_down card" id="b15">HOUND</button>
+      </td>
+      <td>
+        <button class="face_down card" id="b16">BULLDOG</button>
+      </td>
+    </tr>
+  </table>
+
+  <table id="button_table">
+    <tr>
+      <td>
+        <button id="reset_button"> Reset </button>
+      </td>
+    </tr>
+  </table>
+
+  </body>
+</html>

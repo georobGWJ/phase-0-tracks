@@ -1,0 +1,62 @@
+h1, h2 {font-family: "Verdana"}
+
+.scores {
+   width: 415px;
+   border: 1px solid black;
+   text-align: center; }
+  
+.face_down {
+      width: 100px;
+      height: 100px;
+      background-color: #008CBA;
+      color: #008CBA;
+      font-family: : "Verdana";
+      font-size: 20px;
+      -moz-border-radius: 15px;
+      -webkit-border-radius: 15px;
+      border: none;
+      float: left } 
+
+.face_up {
+      width: 100px;
+      height: 100px;
+      background-color: #008CBA;
+      color: white;
+      font-family: : "Verdana";
+      font-size: 20px;
+      -moz-border-radius: 15px;
+      -webkit-border-radius: 15px;
+      border: 1px solid black;
+      float: left } 
+
+.matched {
+      width: 100px;
+      height: 100px;
+      background-color: #A8CD1B;
+      color: white;
+      font-family: : "Verdana";
+      font-size: 20px;
+      -moz-border-radius: 15px;
+      -webkit-border-radius: 15px;
+      border: 1px solid black;
+      float: left } 
+
+#button_table {
+      width: 410px;
+      height: 100px;
+      background-color: white;
+      border: none;
+      text-align: center } 
+
+#reset_button {
+      width: 200px;
+      height: 80px;
+      background-color: #008CBA;
+      color: white;
+      font-family: : "Arial Black";
+      font-size: 40px;
+      -moz-border-radius: 80px;
+      -webkit-border-radius: 80px;
+      border: none;
+      padding: 5px;
+      margin: auto; } 

@@ -12,6 +12,18 @@ get '/' do
   "#{params[:name]} is #{params[:age]} years old."
 end
 
+# GET route that takes a name as a query parameter
+# to say 'Great job!'
+get '/great_job/' do
+  name = params[:name]
+  if name
+    "<h2>Great job, #{name}!</h2>"
+  else
+    "<h2>Great job!</h2>"
+  end
+end
+
+
 # GET Route that displays an address
 get '/contact' do
   address = "<h3>Contact Information</h3><address>"

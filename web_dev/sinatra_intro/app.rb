@@ -33,6 +33,13 @@ get '/contact' do
   address
 end
 
+# GET route that adds 2 numbers
+get '/add/:num1/:num2' do
+  sum = params[:num1].to_f + params[:num2].to_f
+  "<h1> #{params[:num1]} + #{params[:num2]} = #{sum.round(5)} </h1>"
+end
+
+
 # write a GET route with
 # route parameters
 get '/about/:person' do

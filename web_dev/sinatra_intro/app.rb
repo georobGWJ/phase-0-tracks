@@ -12,6 +12,15 @@ get '/' do
   "#{params[:name]} is #{params[:age]} years old."
 end
 
+# GET Route that displays an address
+get '/contact' do
+  address = "<h3>Contact Information</h3><address>"
+  address += "Malcolm 'Mal' Reynolds <br/>"
+  address += "G-82659 Serenity (Firefly Class) <br/>"
+  address += "Somewhere in the 'Verse. <br/></address>"
+  address
+end
+
 # write a GET route with
 # route parameters
 get '/about/:person' do

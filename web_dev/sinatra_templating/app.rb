@@ -1,3 +1,6 @@
+# Jules Martin (julesmartin76000 on GitHub) and I paired
+# to complete Challenge 9.5 on 29 September 2016
+
 # require gems
 require 'sinatra'
 require 'sqlite3'
@@ -23,5 +26,14 @@ post '/students' do
   db.execute("INSERT INTO students (name, campus, age) VALUES (?,?,?)", [params['name'], params['campus'], params['age'].to_i])
   redirect '/'
 end
+
+get '/students/move' do
+  erb :move_student
+end
+
+post '/students/campus' do 
+  db.execute("UPDATE students SET campus=? WHERE name=?", [params['campus'], params['name']])
+  redirect '/'
+end 
 
 # add static resources
